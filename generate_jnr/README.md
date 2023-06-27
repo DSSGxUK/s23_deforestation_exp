@@ -6,7 +6,7 @@ The following script can be used to obtain maps of the spatial risk of deforesta
 
 ## Requirements
 
-You will need several dependencies to run the script. The best way to install all the requirements is to create a Python virtual environment. 
+You will need several dependencies to run the script. The best way to install all the requirements is to create a Python (`>=3.6`) virtual environment.
 
 ```bash
 # Create virtual environment
