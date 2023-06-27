@@ -1,26 +1,27 @@
-# Imports
 import os
-import multiprocessing as mp
-import pkg_resources
-
 import numpy as np
-import pandas as pd
-from tabulate import tabulate
-
 import riskmapjnr as rmj
+from argparse import ArgumentParser
 
 # GDAL
 os.environ["GDAL_CACHEMAX"] = "1024"
 
 
 def main():
+    args = parse_args()
+    run_jnr(**vars(args))
 
-    # Specify the output directory
-    out_dir = "/home/shared/dssg23-deforestation/jnr_outputs"
+
+def parse_args():
+    parser = ArgumentParser()
+    parser.add_argument("--fcc-file", required=True)
+    parser.add_argument("--out-dir", required=True)
+    return parser.parse_args()
+
+
+def run_jnr(fcc_file, out_dir):
+
     rmj.make_dir(out_dir)
-
-    # Specify the input file
-    fcc_file = "/home/shared/dssg23-deforestation/fcc_map_america/amazon.tif"
     border_file = None
 
     # Plot the input file
@@ -32,9 +33,6 @@ def main():
         borders=border_file,
         linewidth=0.2,
         figsize=(5, 4), dpi=800)
-
-    ncpu = mp.cpu_count() - 2
-    print(f"Number of CPUs to use: {ncpu}.")
 
     # Run the JNR algorithm with validation
     results_makemap = rmj.makemap(
@@ -75,6 +73,7 @@ def main():
         borders=border_file,
         legend=True,
         figsize=(5, 4), dpi=800, linewidth=0.2,)
+
 
 if __name__ == "__main__":
     main()
