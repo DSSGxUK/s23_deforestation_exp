@@ -14,11 +14,11 @@ python3 -m venv jnr_env
 source jnr_env/bin/activate
 
 # Install numpy
-pip install numpy
-# Install GDAL 
+pip install numpy==1.20.3
+# Install GDAL (tested with 3.3.0)
 pip install --global-option=build_ext --global-option="-I/usr/include/gdal" gdal==$(gdal-config --version)
 # Install riskmapjnr which all install all other dependencies
-pip install riskmapjnr
+pip install riskmapjnr==1.2
 ```
 
 **Note:** If you're working on SLURM and with modules, you can simply load the GDAL package. In this case, one doen't need to install GDAL.
