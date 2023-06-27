@@ -21,7 +21,7 @@ pip install --global-option=build_ext --global-option="-I/usr/include/gdal" gdal
 pip install riskmapjnr==1.2
 ```
 
-**Note:** If you're working on SLURM and with modules, you can simply load the GDAL package. In this case, one doen't need to install GDAL.
+**Note:** If you're working on Avon, you can simply load the GDAL module. In this case, one doesn't need to install GDAL.
 
 ## Usage
 
@@ -49,13 +49,13 @@ Using these files, one can calculate the prediction of deforestation in terms of
 
 ## Points to note
 
-- The script requires a lot of compute and will take about 30 hours if you're running for the whole of Brazil. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
+- The script requires a lot of compute and will take about 30 hours on a high memory node on a sigle CPU with 48 cores if you're running for the whole of Brazil. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
 
   ```bash
   sbatch job.exp
   ```
-- Don't use the `parallel` argument in the script. It is not working as expected and will give you wrong results.
-- The script will create a lot of intermediate files. You can delete them once the script has finished running. Don't utilise the clean `argument` in the script. The code gives an error when you use it, which is because the parent directory isn't specified.
+- Don't use the `parallel` argument in `rmj.makemap` function. It is not working as expected and will give you wrong results.
+- The script will create a lot of intermediate files. You can delete them once the script has finished running. Don't utilise the clean `argument` in `rmj.makemap` function. The code gives an error when you use it, which is because the parent directory isn't specified.
 
 ## References
 
