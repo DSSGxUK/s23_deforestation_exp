@@ -49,7 +49,7 @@ Using these files, one can calculate the prediction of deforestation in terms of
 
 ## Points to note
 
-- The script requires a lot of compute and will take about 30 hours on a high memory node on a sigle CPU with 48 cores if you're running for the whole of Brazil. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
+- The script requires a lot of compute and will take about 30 hours on a high memory node on a single CPU with 48 cores if you're running for the whole of Brazil. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
 
   ```bash
   sbatch job.exp
