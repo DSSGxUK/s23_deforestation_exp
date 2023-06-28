@@ -1,7 +1,8 @@
 import os
+from argparse import ArgumentParser
+
 import numpy as np
 import riskmapjnr as rmj
-from argparse import ArgumentParser
 
 # GDAL
 os.environ["GDAL_CACHEMAX"] = "1024"
