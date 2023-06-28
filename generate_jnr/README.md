@@ -35,7 +35,7 @@ We use utilise this data for Brazil for the time period 2000-2010 and 2010-2020,
 Simply run the script as follows:
 
 ```bash
-python3 jnr.py
+python3 jnr.py --output-dir <path-to-output-dir> --fcc-file <path-to-fcc-file> 
 ```
 
 which will output the riskmap
@@ -59,4 +59,4 @@ Using these files, one can calculate the prediction of deforestation in terms of
 
 ## References
 
-The script mainly utilises the [`riskmapjnr`](https://github.com/ghislainv/riskmapjnr) package and the raster data of Brazil from [ForestAtRisk](https://forestatrisk.cirad.fr/rasters.html) 
+The script mainly utilises the [`riskmapjnr`](https://github.com/ghislainv/riskmapjnr) package and the raster data of Brazil from [ForestAtRisk](https://forestatrisk.cirad.fr/rasters.html)

@@ -11,4 +11,4 @@ source jnr_env/bin/activate
 module load GCC/10.3.0  OpenMPI/4.1.1
 module load  GDAL/3.3.0
 
-srun python3 jnr.py
+srun python3 jnr.py --out-dir <path-to-output-directory> --fcc-file <path-to-fcc-file>
