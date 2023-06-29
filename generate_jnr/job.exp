@@ -8,9 +8,9 @@
 #SBATCH --partition=hmem
 
 source jnr_env/bin/activate
-export PYTHONPATH="$VIRTUAL_ENV/lib/python3.8/site-packages:$PYTHONPATH"
 module purge
 module load GCC/10.3.0  OpenMPI/4.1.1
 module load  GDAL/3.3.0
+export PYTHONPATH="$VIRTUAL_ENV/lib/python3.8/site-packages:$PYTHONPATH"
 
 srun python3 jnr.py --out-dir "/home/shared/dssg23-deforestation/jnr_outputs" --fcc-file "/home/shared/dssg23-deforestation/fcc_map_america/amazon.tif"
