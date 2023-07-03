@@ -38,7 +38,7 @@ gdalwarp -overwrite -of GTiff -cutline $shp_file -cl amazon_border -crop_to_cutl
 gdalwarp -overwrite -of GTiff -cutline $shp_file -cl amazon_border -crop_to_cutline -dstnodata $nodata_val ${out_dir}/merged_maps/merged_map_treecover2000.tif ${out_dir}/merged_maps/merged_map_treecover2000_clipped_noData-${nodata_val}.tif
 
 echo "Projecting the map to EPSG:102033..."
-# Project the map to EPSG:102033ap_brazil_fcc-123_13-18.tif
+# Project the map to EPSG:102033
 gdalwarp --debug on --config GDAL_CACHEMAX 2048 -t_srs ESRI:102033 ${out_dir}/merged_maps/merged_map_lossyear_clipped_noData-${nodata_val}.tif ${out_dir}/merged_maps/merged_map_lossyear_clipped_noData-${nodata_val}_prj.tif
 gdalwarp --debug on --config GDAL_CACHEMAX 2048 -t_srs ESRI:102033 ${out_dir}/merged_maps/merged_map_treecover2000_clipped_noData-${nodata_val}.tif ${out_dir}/merged_maps/merged_map_treecover2000_clipped_noData-${nodata_val}_prj.tif
 
