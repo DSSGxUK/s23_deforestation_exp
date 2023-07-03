@@ -1,6 +1,6 @@
 # Create Forest Cover Change Map
 
-The following script can be used to download, process and obtains map of forest cover change (FCC) for the years 2000-2022 in the format of `fcc_123` where:
+The following script can be used to download, process and obtain maps of forest cover change (FCC) for the years 2000-2022 in the format of `fcc_123` where:
  - 1 stands for deforestation in the first time period
  - 2 stands for deforestation in the second time period
  - 3 stands for remaining forest cover
@@ -50,12 +50,12 @@ The `downloaded_tiles` folder will have the downloaded tiles from the [Global Fo
 
 ## Points to note
 
-- The script requires significant compute, depending on the size of the input. Running it on whole of Brazil required about 24 GB of memory, taking about 4 to 6 hours on a single CPU. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
+- The script requires significant compute, depending on the size of the input. Running it on the whole of Brazil required about 24 GB of memory, taking about 4 to 6 hours on a single CPU. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
 
   ```bash
   sbatch job.exp
   ```
-- The script will create a lot of intermediate files, mainly after clipping the region of interest and after projecting it to required systems. You can delete them once the script has finished running.
+- The script will create a lot of intermediate files, mainly after clipping the region of interest and after projecting it to the required systems. You can delete them once the script has finished running.
 
 ## References
 
