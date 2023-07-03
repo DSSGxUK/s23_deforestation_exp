@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=fcc-test      # create a short name for your job
+#SBATCH --job-name=create-fcc    # create a short name for your job
 #SBATCH --nodes=1                # node count
 #SBATCH --ntasks=1               # total number of tasks across all nodes
 #SBATCH --cpus-per-task=1        # cpu-cores per task (>1 if multi-threaded tasks)
@@ -10,4 +10,5 @@ module purge
 module load GCC/10.3.0  OpenMPI/4.1.1
 module load  GDAL/3.3.0
 
-sh run.sh /home/shared/dssg23-deforestation/forest_loss_maps /home/shared/dssg23-deforestation/fcc_map_america/amazon_border.shp 13 15 18 23
+sh preprocess.sh /home/shared/dssg23-deforestation/forest_loss_maps /home/shared/dssg23-deforestation/fcc_map_america/amazon_border.shp 99
+sh create_fcc.sh /home/shared/dssg23-deforestation/fcc_map_america 13 15 18

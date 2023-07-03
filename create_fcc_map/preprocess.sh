@@ -7,11 +7,7 @@ url="https://storage.googleapis.com/earthenginepartners-hansen/GFC-2022-v1.10/Ha
 # Input Arguments
 out_dir=$1                             # Output directory
 shp_file=$2                            # Shapefile
-start_year=$3                          # Start year in two digits, i.e. 13 for 2013
-mid_year_1=$4                          # Mid year, same format as start year
-mid_year_2=$(expr $mid_year_1 + 1)  
-end_year=$5                            # End year, same format as start year
-nodata_val=$6                          # No data value
+nodata_val=$3                          # No data value
 
 echo "Creating required directories in ${out_dir}..."
 # Create the required directories
@@ -46,6 +42,3 @@ echo "Creating the final forest loss map and tree cover map..."
 # Copy and rename the final forest loss map
 cp ${out_dir}/merged_maps/merged_map_lossyear_clipped_noData-${nodata_val}_prj.tif ${out_dir}/merged_maps/merged_map_lossyear_final.tif
 cp ${out_dir}/merged_maps/merged_map_treecover2000_clipped_noData-${nodata_val}_prj.tif ${out_dir}/merged_maps/merged_map_treecover2000_final.tif
-
-# Create the FCC map
-gdal_calc.py -A ${out_dir}/merged_maps/merged_map_lossyear_final.tif -B ${out_dir}/merged_maps/merged_map_treecover2000_final.tif --calc="(A==0)*3*(B>0) + (A>=${start_year})*(A<=${mid_year_1})*1 + (A>=${mid_year_2})*(A<=${end_year})*2" --NoDataValue=0 --outfile ${out_dir}/merged_maps/merged_map_fcc-123_${start_year}-${end_year}.tif
