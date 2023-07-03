@@ -45,7 +45,6 @@ def run_jnr(fcc_file, out_dir):
         win_sizes=np.arange(5, 200, 16),
         ncat=30,
         parallel=False,
-        ncpu=ncpu,
         methods=["Equal Interval", "Equal Area"],
         csize=300,
         no_quantity_error=True,
