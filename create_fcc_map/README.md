@@ -11,7 +11,7 @@ We employ this as the input to the [riskmapjnr](https://github.com/ghislainv/ris
 
 ## Requirements
 
-You will `GDAL` (tested with 3.3.0) to run the script. You can install it as follows:
+You will need `GDAL` (tested with 3.3.0) to run the script. You can install it as follows:
 
 ```bash
 pip install --global-option=build_ext --global-option="-I/usr/include/gdal" gdal==$(gdal-config --version)
