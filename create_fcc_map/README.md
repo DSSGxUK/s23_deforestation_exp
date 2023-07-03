@@ -56,7 +56,7 @@ gdal_calc.py -A ${out_dir}/merged_maps/merged_map_lossyear_final.tif -B ${out_di
 
 ## Points to note
 
-- The script requires significant compute, depending on the size of the input. The major time is spent cropping the region of interest. Running it on the whole of Brazil required about 24 GB of memory, taking about 4 to 6 hours on a single CPU. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
+- The script requires significant compute, depending on the size of the input. The majority of the time is spent cropping the region of interest. Running it on the whole of Brazil required about 24 GB of memory, taking about 4 to 6 hours on a single CPU. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
 
   ```bash
   sbatch job.exp
