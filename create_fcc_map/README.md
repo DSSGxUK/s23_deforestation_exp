@@ -48,9 +48,15 @@ out_dir
 The `downloaded_tiles` folder will have the downloaded tiles from the [Global Forest Change](https://storage.googleapis.com/earthenginepartners-hansen/GFC-2022-v1.10/download.html) website. The `merged_maps` folder will have the merged maps for forest loss year and tree cover. The required output will be stored as 
 ```${out_dir}/merged_maps/merged_map_fcc-123_${start_year}-${end_year}.tif```
 
+Once you have the files `${out_dir}/merged_maps/merged_map_lossyear_final.tif` and `${out_dir}/merged_maps/merged_map_treecover2000_final.tif`, you can run the following command to obtain the final FCC map for any time period that you want:
+
+```bash
+gdal_calc.py -A ${out_dir}/merged_maps/merged_map_lossyear_final.tif -B ${out_dir}/merged_maps/merged_map_treecover2000_final.tif --calc="(A==0)*3*(B>0) + (A>=${start_year})*(A<=${mid_year_1})*1 + (A>=${mid_year_2})*(A<=${end_year})*2" --NoDataValue=0 --outfile ${out_dir}/merged_maps/merged_map_fcc-123_${start_year}-${end_year}.tif
+```
+
 ## Points to note
 
-- The script requires significant compute, depending on the size of the input. Running it on the whole of Brazil required about 24 GB of memory, taking about 4 to 6 hours on a single CPU. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
+- The script requires significant compute, depending on the size of the input. The major time is spent cropping the region of interest. Running it on the whole of Brazil required about 24 GB of memory, taking about 4 to 6 hours on a single CPU. Hence, it is better to schedule it on a cluster. The job file for the same has also been provided and can be run as follows:
 
   ```bash
   sbatch job.exp
