@@ -27,7 +27,7 @@ The scripts require the following input parameters which should be passed:
 - `start_year` : Start year of the time period; it should be the first two digits of the year, e.g. 17 for 2017
 - `mid_year` : Mid year of the time period; it should be the same format as `start_year`
 - `end_year` : End year of the time period; it should be the same format as `start_year`
-- `nodata_val` : No data value for the raster file, you can set it to 23 or any other value >= 23 (preferably 99 to further proof it)
+- `nodata_val` : No data value for the raster file, you can set it to 23 or any other value >= 23 (preferably 99 to future proof it)
 
 The folder contains two scripts, `preprocess.sh` and `create_fcc.sh`. 
 
