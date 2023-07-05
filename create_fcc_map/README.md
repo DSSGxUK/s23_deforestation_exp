@@ -21,7 +21,7 @@ pip install --global-option=build_ext --global-option="-I/usr/include/gdal" gdal
 
 ## Usage
 
-The scripts requires the following input parameters which should be passed:
+The scripts require the following input parameters which should be passed:
 - `out_dir`: Output directory where you want to store the results
 - `shp_file` : Shapefile of the region of interest
 - `start_year` : Start year of the time period; it should be the first two digits of the year, e.g. 17 for 2017
