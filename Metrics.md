@@ -13,6 +13,8 @@ it uses the [Mapbiomas](https://https://mapbiomas.org/en/download) dataset.
 *Fig.2. Avg 5-year benchmark diagram*
 ## Calculated Metrics for Precision and Recall
 The derived values of precision and recall can be plotted as follows:
+
+
 <img width="440" alt="image" src="https://github.com/DSSGxUK/s23_deforestation_exp/assets/83265366/2aaf457e-792d-48d4-ab0a-037cc7c5089a">
 
 *Fig.3. Precision Plot*
