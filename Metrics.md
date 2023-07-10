@@ -7,7 +7,7 @@ The following code contains the function to return the normalized continuous pre
 
 ## Brief of the 5-year Average Benchmark
 The ART/TREES-inspired benchmark computes the average of deforestation taking place in a 5-year window and uses that to predict the deforestation in 3 subsequent years in the future. 
-it uses the [Mapbiomas](https://https://mapbiomas.org/en/download) dataset.
+It uses the [Mapbiomas](https://https://mapbiomas.org/en/download) dataset, and has been validated on 6x6 km validation grid.
 <img width="573" alt="image" src="https://github.com/DSSGxUK/s23_deforestation_exp/assets/83265366/04a2b214-13f6-4cdc-acd3-0de825f3a567">
 
 *Fig.2. Avg 5-year benchmark diagram*
