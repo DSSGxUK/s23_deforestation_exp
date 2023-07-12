@@ -2,7 +2,7 @@
 
 The following script can be used to obtain maps of the spatial risk of deforestation and forest degradation following the methodology developed in the context of the Jurisdictional and Nested REDD+ ([JNR](https://verra.org/project/jurisdictional-and-nested-redd-framework/)) and using only a forest cover change map as input.
 
-![image info](./assets/fcc123.png)
+![image info](../assets/fcc123.png)
 
 ## Usage
 
@@ -21,7 +21,7 @@ python3 jnr.py --output-dir <path-to-output-dir> --fcc-file <path-to-fcc-file>
 
 which will output the riskmap.
 
-![image info](./assets/riskmap.png)
+![image info](../assets/riskmap.png)
 
 The output directory will have several folders, but the files of interest include 
 - `<output_dir>/fullhist/riskmap_ws<window-size>_<binning-strategy>.tif` which is the final risk map with the selected parameters on the full history
