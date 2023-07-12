@@ -26,7 +26,8 @@ def calculate_average_recall_precision(image_dir, avg_image_dir):
 
         # Read the image data into a NumPy array
         image_array = dataset.read()
-        arr = image_array * 0.003
+        ## unit conversion
+        arr = image_array * 0.09
 
         # If the image has multiple bands, you can access each band individually
         band1 = image_array[0]  # Access the first band (index 0)
