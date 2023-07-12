@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --job-name=run-jnr       # create a short name for your job
+#SBATCH --nodes=1                # node count
+#SBATCH --ntasks=1               # total number of tasks across all nodes
+#SBATCH --cpus-per-task=1        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --time=30:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --mem-per-cpu=31418
+#SBATCH --partition=hmem
+
+source jnr_env/bin/activate
+module purge
+module load GCC/10.3.0  OpenMPI/4.1.1
+module load  GDAL/3.3.0
+export PYTHONPATH="$VIRTUAL_ENV/lib/python3.8/site-packages:$PYTHONPATH"
+
+srun python3 jnr.py --out-dir "/home/shared/dssg23-deforestation/jnr_outputs" --fcc-file "/home/shared/dssg23-deforestation/create_jnr-input_mapbiomass/final_maps/merged_map_fcc-123_13-18.tif"
