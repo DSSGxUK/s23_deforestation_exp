@@ -15,13 +15,15 @@ It uses the [Mapbiomas](https://https://mapbiomas.org/en/download) dataset, and 
 The derived values of precision and recall can be plotted as follows:
 
 
-<img width="440" alt="image" src="https://github.com/DSSGxUK/s23_deforestation_exp/assets/83265366/2aaf457e-792d-48d4-ab0a-037cc7c5089a">
+<img width="263" alt="image" src="https://github.com/DSSGxUK/s23_deforestation_exp/assets/83265366/4d3b6931-a478-4c14-8a3c-89ef29ba8732">
 
-*Fig.3. Precision Plot*
 
-<img width="427" alt="image" src="https://github.com/DSSGxUK/s23_deforestation_exp/assets/83265366/2ea285b2-67a1-4266-829c-51fbfaba77fe">
+*Fig.3. Precision Plot Comparative Analysis*
 
-*Fig.4. Recall Plot*
+
+<img width="258" alt="image" src="https://github.com/DSSGxUK/s23_deforestation_exp/assets/83265366/75cee23b-6f90-44a7-b25f-a6243d774de0">
+
+*Fig.4. Recall Plot Comparative Analysis*
 
 Here, the Start Year denotes the year_1 worth of predictions. 
 For ex: Start Year : 2017 would mean that year_1 was 2017 for that case, year_2 was 2018 and year_3 was 2019.
