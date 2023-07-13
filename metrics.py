@@ -3,6 +3,18 @@ import rasterio
 import numpy as np
 
 def calculate_average_recall_precision(ground_truth_dir, prediction_dir):
+    """
+    Calculates the average recall and precision for continuous versions of precision and recall.
+    Loads ground truth and prediction files from disk.
+
+    Args:
+        ground_truth_dir (str): Directory path containing the ground truth files.
+        prediction_dir (str): Directory path containing the prediction files.
+
+    Returns:
+        float: Average recall value.
+        float: Average precision value.
+    """
     # Get the file names in the directories
     ground_truth_files = [file for file in os.listdir(ground_truth_dir) if not file.endswith('.tif.aux.xml')]
     prediction_files = [file for file in os.listdir(prediction_dir) if not file.endswith('.tif.aux.xml')]
@@ -85,4 +97,8 @@ def calculate_average_recall_precision(ground_truth_dir, prediction_dir):
 
     return average_recall, average_precision
 
+# Example usage
+ground_truth_dir = '/kaggle/input/output-2020/output_2020'
+prediction_dir = '/kaggle/input/avg-2019/output_2014-2018'
 
+average_recall, average_precision = calculate_average_recall_precision(ground_truth_dir, prediction_dir)
