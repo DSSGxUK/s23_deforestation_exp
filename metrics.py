@@ -80,13 +80,7 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         # Append the filtered precision values to the list
         filtered_precision_values.extend(filtered_precision)
 
-        # print(f"Recall {i}:")
-        # print(recall)
-        # print('---')
-
-        # print(f"Precision {i}:")
-        # print(precision)
-        # print('---')
+       
 
     # Calculate the average recall and precision based on non-NaN values
     average_recall = np.mean(filtered_recall_values)
