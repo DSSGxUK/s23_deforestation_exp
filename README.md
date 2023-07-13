@@ -2,7 +2,7 @@
 
 Experiments for the DSSGx-UK 2023 Deforestation project with UN-REDD:
 - Data preprocessing:
-    - [Downsample features](./MapBiomas_downsampling/) : process MapBiomas dataset over given time periods to get downsampled fores cover, deforestation and forest edge density maps
+    - [Downsample features](./MapBiomas_downsampling/) : process MapBiomas dataset over given time periods to get downsampled forest cover, deforestation and forest edge density maps
     - [Average values](./Averaging_script/) : script to run averaging over several tiles in paralel, while converting from 1/900m^2 to hectars.
 - Creating JNR Risk maps:
     - [Create Forest Cover Change Map](./create_fcc_map/) : download, process and obtain maps of forest cover change (FCC) for the years 2000-2022 using Global Forest Change dataset
