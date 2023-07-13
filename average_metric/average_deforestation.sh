@@ -38,7 +38,7 @@ for ((start_year=2012; start_year<=2016; start_year++)); do
             done
         done
         
-        calc="numpy.average(A,axis=0)*0.09" # take average, *0.09 to convert in hectares
+        calc="numpy.average(A,axis=0)*0.09" # take average, *0.09 to convert from pixels to hectares
         args+="--outfile=\"$output_dir/${base_name}_average.tif\" --calc=\"$calc\" --NoDataValue=0 --type=Float32" 
         # run GDAL calculation
         eval "gdal_calc.py $args"

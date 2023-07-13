@@ -22,7 +22,7 @@ module load GDAL/3.3.0
 
 Then run the script by typing the following in your terminal:
 ```bash
-bash average_deforestation.sh TIME_WINDOW
+./average_deforestation.sh TIME_WINDOW
 ```
 Where `TIME_WINDOW` is the desired time window for averaging (a positive integer).
 
