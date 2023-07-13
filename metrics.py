@@ -2,7 +2,7 @@ import os
 import rasterio
 import numpy as np
 
-def calculate_average_recall_precision(ground_truth_dir, prediction_dir):
+def calculate_metrics(ground_truth_dir, prediction_dir):
     """
     Calculates the average recall and precision for continuous versions of precision and recall.
     Loads ground truth and prediction files from disk.
