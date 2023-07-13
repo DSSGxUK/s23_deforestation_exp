@@ -8,6 +8,25 @@ from tqdm import tqdm
 from scipy.ndimage import convolve
 
 def compute_edge_density(raster_file, output_file, window_size):
+
+    """
+    Compute the forest edge density for a given raster file.
+
+    This function reads a raster file of forest coverage data and calculates 
+    the edge density of forests, i.e., the ratio of forest edges to the total 
+    number of pixels in a given window. This is computed for each window of 
+    size specified by 'window_size'. The results are then written to a new raster file.
+
+    Parameters:
+    raster_file (str): Path to the input raster file (.tif) containing forest coverage data.
+    output_file (str): Path where the output raster file (.tif) with calculated edge densities will be saved.
+    window_size (int): The size of the window (in pixels) to use when calculating edge densities.
+
+    Output: 
+    A raster file where each pixel represents the forest edge density within a window of the original raster. 
+    Edge density is calculated as the total count of forest edge pixels divided by the total pixels in the window.
+    """
+
     # Open the raster file
     with rasterio.open(raster_file) as src:
         # Calculate the number of windows in each dimension
