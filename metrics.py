@@ -2,50 +2,50 @@ import os
 import rasterio
 import numpy as np
 
-def calculate_average_recall_precision(image_dir, avg_image_dir):
+def calculate_average_recall_precision(ground_truth_dir, prediction_dir):
     # Get the file names in the directories
-    image_files = [file for file in os.listdir(image_dir) if not file.endswith('.tif.aux.xml')]
-    avg_image_files = [file for file in os.listdir(avg_image_dir) if not file.endswith('.tif.aux.xml')]
+    ground_truth_files = [file for file in os.listdir(ground_truth_dir) if not file.endswith('.tif.aux.xml')]
+    prediction_files = [file for file in os.listdir(prediction_dir) if not file.endswith('.tif.aux.xml')]
 
     # Sort the file names to ensure matching pairs
-    image_files.sort()
-    avg_image_files.sort()
+    ground_truth_files.sort()
+    prediction_files.sort()
 
     # List to store recall and precision arrays without NaN
     filtered_recall_values = []
     filtered_precision_values = []
 
-    # Process each matching image and average image file
-    for i, (image_file, avg_image_file) in enumerate(zip(image_files, avg_image_files), start=1):
+    # Process each matching ground truth and prediction file
+    for i, (ground_truth_file, prediction_file) in enumerate(zip(ground_truth_files, prediction_files), start=1):
         # Construct the full file paths
-        image_path = os.path.join(image_dir, image_file)
-        avg_image_path = os.path.join(avg_image_dir, avg_image_file)
+        ground_truth_path = os.path.join(ground_truth_dir, ground_truth_file)
+        prediction_path = os.path.join(prediction_dir, prediction_file)
 
-        # Open the image file
-        dataset = rasterio.open(image_path)
+        # Open the ground truth file
+        dataset = rasterio.open(ground_truth_path)
 
-        # Read the image data into a NumPy array
-        image_array = dataset.read()
+        # Read the ground truth data into a NumPy array
+        ground_truth_array = dataset.read()
         ## unit conversion
-        arr = image_array * 0.09
+        ground_truth_arr = ground_truth_array * 0.09
 
         # If the image has multiple bands, you can access each band individually
-        band1 = image_array[0]  # Access the first band (index 0)
+        ground_truth_band = ground_truth_array[0]  # Access the first band (index 0)
 
-        # Open the average image file
-        dataset = rasterio.open(avg_image_path)
+        # Open the prediction file
+        dataset = rasterio.open(prediction_path)
 
-        # Read the average image data into a NumPy array
-        avg_image_array = dataset.read()
-        avg_arr = avg_image_array
+        # Read the prediction data into a NumPy array
+        prediction_array = dataset.read()
+        prediction_arr = prediction_array
 
         # If the image has multiple bands, you can access each band individually
-        band = avg_image_array[0]
+        prediction_band = prediction_array[0]
 
-        min_arr = np.minimum(arr, avg_arr)
+        min_arr = np.minimum(ground_truth_arr, prediction_arr)
 
         # Calculate recall array
-        recall = np.sum(np.nan_to_num(min_arr))/np.sum(np.nan_to_num(arr))
+        recall = np.sum(np.nan_to_num(min_arr))/np.sum(np.nan_to_num(ground_truth_arr))
 
         # Flatten the recall array
         flattened_recall = recall.flatten()
@@ -57,7 +57,7 @@ def calculate_average_recall_precision(image_dir, avg_image_dir):
         filtered_recall_values.extend(filtered_recall)
 
         # Calculate precision array
-        precision = np.sum(np.nan_to_num(min_arr))/np.sum(np.nan_to_num(avg_arr))
+        precision = np.sum(np.nan_to_num(min_arr))/np.sum(np.nan_to_num(prediction_arr))
 
         # Flatten the precision array
         flattened_precision = precision.flatten()
@@ -80,13 +80,9 @@ def calculate_average_recall_precision(image_dir, avg_image_dir):
     average_recall = np.mean(filtered_recall_values)
     average_precision = np.mean(filtered_precision_values)
 
-    print("Overall Average Recall", average_recall)
+    print("Overall Average Recall:", average_recall)
     print("Overall Average Precision:", average_precision)
 
     return average_recall, average_precision
 
-# Example usage
-image_dir = '/kaggle/input/output-2020/output_2020'
-avg_image_dir = '/kaggle/input/avg-2019/output_2014-2018'
 
-average_recall, average_precision = calculate_average_recall_precision(image_dir, avg_image_dir)
