@@ -29,7 +29,7 @@ Here, the Start Year denotes the year_1 worth of predictions.
 For ex: Start Year : 2017 would mean that year_1 was 2017 for that case, year_2 was 2018 and year_3 was 2019.
 
 ## Requirements
-The `rasterio` package (tested on Python > 3.10) must be installed. You can install it from PyPi as:
+The `rasterio` package (tested on Python=3.8.8) must be installed. You can install it from PyPi as:
 
 `!pip install rasterio`
 
