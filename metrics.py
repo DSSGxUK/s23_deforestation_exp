@@ -95,10 +95,7 @@ def calculate_average_recall_precision(ground_truth_dir, prediction_dir):
     print("Overall Average Recall:", average_recall)
     print("Overall Average Precision:", average_precision)
 
-    return average_recall, average_precision
-
-# Example usage
-ground_truth_dir = '/kaggle/input/output-2020/output_2020'
-prediction_dir = '/kaggle/input/avg-2019/output_2014-2018'
-
-average_recall, average_precision = calculate_average_recall_precision(ground_truth_dir, prediction_dir)
+    return {
+        "recall": average_recall,
+        "precision": average_precision,
+    }
