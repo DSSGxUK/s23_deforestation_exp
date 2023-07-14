@@ -49,7 +49,7 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
 
         # Read the prediction data into a NumPy array
         prediction_array = dataset.read()
-        prediction_arr = prediction_array * 0.09
+        prediction_arr = prediction_array
 
         # If the image has multiple bands, you can access each band individually
         prediction_band = prediction_array[0]
