@@ -64,8 +64,6 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
     precision=np.sum(min_val_sum_pertile)/np.sum(pred_sum_pertile)
 
     # Calculate the average recall and precision based on non-NaN values
-    print("Recall:", recall)
-    print("Precision:", precision)
     
     return {
         "recall": recall,
