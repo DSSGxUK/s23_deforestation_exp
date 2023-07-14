@@ -37,22 +37,22 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         dataset = rasterio.open(ground_truth_path)
 
         # Read the ground truth data into a NumPy array
-        ground_truth_array = dataset.read() 
+        ground_truth_array = dataset.read(1) 
         ## unit conversion
         ground_truth_arr = ground_truth_array * 0.09
 
         # If the image has multiple bands, you can access each band individually
-        ground_truth_band = ground_truth_array[0]  # Access the first band (index 0)
+        #]  # Access the first band (index 0)
 
         # Open the prediction file
         dataset = rasterio.open(prediction_path)
 
         # Read the prediction data into a NumPy array
-        prediction_array = dataset.read()
+        prediction_array = dataset.read(1)
         prediction_arr = prediction_array
 
-        # If the image has multiple bands, you can access each band individually
-        prediction_band = prediction_array[0]
+        # If the image has multiple bands, you can access each band individually. Specifying first band only
+        
 
         min_arr = np.minimum(ground_truth_arr, prediction_arr)
         # Append  values to the list
