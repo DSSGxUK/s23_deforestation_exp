@@ -74,4 +74,4 @@ echo "Done processing years. Creating final file and removing temporary files...
 mv $tmp_file "${output_dir}/forest-loss-year_map_$((start_year-2000))-$((end_year-2000)).tif"
 
 # Remove tmp file
-rm -rf $tmp_file $out_file
+rm $tmp_file $out_file
