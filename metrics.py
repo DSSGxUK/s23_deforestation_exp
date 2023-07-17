@@ -28,7 +28,7 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
     min_val_sum_pertile=[]
 
     # Process each matching ground truth and prediction file
-    for i, (ground_truth_file, prediction_file) in enumerate(zip(ground_truth_files, prediction_files), start=1):
+    for ground_truth_file, prediction_file in zip(ground_truth_files, prediction_files):
         # Construct the full file paths
         ground_truth_path = os.path.join(ground_truth_dir, ground_truth_file)
         prediction_path = os.path.join(prediction_dir, prediction_file)
