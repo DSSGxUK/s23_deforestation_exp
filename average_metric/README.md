@@ -37,14 +37,12 @@ The script creates an output directory for each year's range (e.g., output_2012-
 
 The output files are named after the unique basename found in each year's input directory, with _average.tif appended to it (e.g., base_name_average.tif).
 
-
+Please note that this script assumes a specific directory and file structure. Ensure that your .tif files are organized correctly in the input directories for each year (e.g., `input_dir_basename_2012`, `input_dir_basename_2013`, etc.). 
 
 ## Dependencies
 
 This script requires the GDAL module, specifically the `gdal_calc.py` tool. Make sure to load the GDAL module before running the script.
 
 ## Note
-
-Please note that this script assumes a specific directory and file structure. Ensure that your .tif files are organized correctly in the input directories for each year (e.g., `input_dir_basename_2012`, `input_dir_basename_2013`, etc.). 
 
 Be aware that running this script may be computationally intensive, especially for large datasets or long time windows. Make sure your environment has sufficient resources to handle this.
