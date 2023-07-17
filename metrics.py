@@ -1,6 +1,7 @@
 import os
 import rasterio
 import numpy as np
+import re
 
 def calculate_metrics(ground_truth_dir, prediction_dir):
     """
@@ -27,14 +28,15 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
     if len(ground_truth_files) != len(prediction_files):
         raise ValueError("Number of ground truth files does not match number of prediction files.")
 
-    # Check if the file names match between the directories based on the first 2 characters
-    ground_truth_prefixes = {file[:2] for file in ground_truth_files}
-    prediction_prefixes = {file[:2] for file in prediction_files}
-    if ground_truth_prefixes != prediction_prefixes:
-        extra_ground_truth_files = [f for f in ground_truth_files if f[:2] not in prediction_prefixes]
-        extra_prediction_files = [f for f in prediction_files if f[:2] not in ground_truth_prefixes]
+    # Check if the file names match between the directories based on the base names
+    gt_base_names = [re.match(r"(\d+)_downsampled.tif", f).group(1) for f in ground_truth_files]
+    pred_base_names = [re.match(r"(\d+)_average.tif", f).group(1) for f in prediction_files]
+
+    if gt_base_names != pred_base_names:
+        extra_ground_truth_files = [f for f in ground_truth_files if re.match(r"(\d+)_downsampled.tif", f).group(1) not in pred_base_names]
+        extra_prediction_files = [f for f in prediction_files if re.match(r"(\d+)_average.tif", f).group(1) not in gt_base_names]
         raise ValueError(
-            f"File names in ground truth and prediction folders do not match based on the first 2 characters! "
+            f"File names in ground truth and prediction folders do not match based on the base names! "
             f"Extra ground truth files: {extra_ground_truth_files} "
             f"Extra prediction files: {extra_prediction_files}."
         )
@@ -53,7 +55,7 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         with rasterio.open(ground_truth_path) as dataset:
             # Read the ground truth data into a NumPy array
             ground_truth_array = dataset.read(1)
-            ## unit conversion from 30m pixels to hectares
+            ## unit conversion from 300m pixels to hectares
             ground_truth_arr = ground_truth_array * 0.09
 
         # Open the prediction file within a 'with' statement
