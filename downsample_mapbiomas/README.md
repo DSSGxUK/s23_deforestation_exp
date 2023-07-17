@@ -2,39 +2,43 @@
 
 ## Overview
 
-This repository contains a set of scripts that perform downscaling of deforestation data stored in .tif files. The main idea behind the processing is to aggregate the deforestation data into grids, allowing for more efficient data processing and analysis.
+This folder contains a set of scripts that perform downscaling of deforestation data stored in .tif files. The main idea behind the processing is to aggregate the deforestation data into grids, allowing for more efficient data processing and analysis.
 
 ## Files
 
-* `run_on_tiles.sh` - Bash script that finds all .tif files in the directory for a specified year, passes each file to the Python script for processing, and stores the output in a dedicated output directory.
-* `downsample.py` - Python script that processes .tif raster files and creates a downsampled version. The downsampling is done by aggregating data into a grid of specified size.
-* `downsample_forest_cover.py`, `edge_density` - Are analogous to `downsample.py`.
-* `run_on_tiles_fc.sh`, `run_on_tiles_edge_density.sh` - Are analogous to `run_on_tiles.sh`.
+* `run_on_tiles.sh` - Bash script that processes .tif files in a specified year range using the `downsample.py` script and stores the output in dedicated output directories.
+* `run_on_tiles_edge_density.sh` - Bash script that calculates the forest edge density for .tif files in a specified year range using the `edge_density.py` script and stores the output in dedicated output directories.
+* `downsample.py` - Python script that performs downsampling on .tif raster files, aggregating data into a grid of specified size.
+* `edge_density.py` - Python script that reads a raster file, applies a mask for a given class and calculates the edge density of the given pixel class, i.e. the ratio of pixel edges to the total number of pixels in a given window.
 
 ## Usage
 
 ### `run_on_tiles.sh`
 
-This is a bash script that is designed to process .tif files in a given year's directory (e.g., `y_2021`). It runs the `downsample.py` script on each .tif file in the directory and outputs the result in the corresponding `output_year` directory. 
+This bash script processes .tif files in a specified year range. It runs the downsample.py script on each .tif file and outputs the results in corresponding output directories.
+
+To use this script, navigate to the directory containing the script and run the following command in your terminal:
+
+```bash
+./run_on_tiles.sh start_year end_year
+```
+
+Replace `start_year` and `end_year` with the desired range of years.
 
 The script will create the output directory if it doesn't exist.
 
-To run this script, navigate to the directory containing the script and type the following in your terminal:
+### `run_on_tiles_edge_density.sh`
 
-```bash
-bash downsample.sh
-```
+Usage is analogous to run_on_tiles.sh
 
 ### `downsample.py`
 
-This is a Python script that performs the actual downsampling. It reads a .tif file, processes the data into a specified grid size, and writes the result to a new .tif file.
+This Python script performs downsampling on .tif raster files. It reads an input .tif file, processes the data into a specified grid size, and writes the results to a new .tif file.
 
-The script uses Rasterio for reading and writing .tif files, and NumPy for data manipulation.
-
-To run this script standalone, navigate to the directory containing the script and type the following in your terminal:
+To run this script standalone, navigate to the directory containing the script and run the following command in your terminal:
 
 ```bash
-python3 downsample.py input_file output_file --grid_size GRID_SIZE
+python3 downsample.py input_file output_file --grid_size GRID_SIZE --pixel-class PIXEL_CLASS
 ```
 
 Where:
@@ -42,7 +46,12 @@ Where:
 * `input_file` - Path to the input .tif file.
 * `output_file` - Path to the output .tif file.
 * `GRID_SIZE` - Optional. Grid size in pixels. Default is 200 (for a 6km grid with 30m pixels).
+* `PIXEL_CLASS` - Optional. Pixel class to consider when downsampling.
 
+
+### `edge_density.py`
+
+Usage is analogous to edge_density.sh
 
 ## Note
 
