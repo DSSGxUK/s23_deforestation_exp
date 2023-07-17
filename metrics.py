@@ -12,8 +12,8 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         prediction_dir (str): Directory path containing the prediction files.
 
     Returns:
-        float: Average recall value.
-        float: Average precision value.
+        float: Continuous recall value.
+        float: Continuous precision value.
     """
     # Get the file names in the directories
     ground_truth_files = [file for file in os.listdir(ground_truth_dir) if file.endswith('.tif')]
