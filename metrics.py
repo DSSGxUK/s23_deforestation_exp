@@ -53,7 +53,7 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         with rasterio.open(ground_truth_path) as dataset:
             # Read the ground truth data into a NumPy array
             ground_truth_array = dataset.read(1)
-            ## unit conversion from 300m pixels to hectares
+            ## unit conversion from 30m pixels to hectares
             ground_truth_arr = ground_truth_array * 0.09
 
         # Open the prediction file within a 'with' statement
