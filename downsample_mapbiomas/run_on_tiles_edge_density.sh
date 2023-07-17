@@ -1,17 +1,38 @@
 #!/bin/bash
 
-for year in {2012..2021}; do
-    for input_file in y_$year/*.tif; do
-        output_dir="output_ed_$year"
-        output_file="$output_dir/$(basename "$input_file" .tif)_ed.tif"
+# Check if the correct arguments are provided
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 start_year end_year"
+    exit 1
+fi
 
-        if [ ! -d "$output_dir" ]; then
-            mkdir "$output_dir"
-        fi
+start_year=$1
+end_year=$2
 
-        python3 edge_density.py "$input_file" "$output_file" &
-    done
+# Load necessary modules
+module load GCCcore/11.3.0
+module load Python/3.10.4
+module load GCC/11.3.0 OpenMPI/4.1.4
+module load GDAL/3.5.0
+module load parallel/20220722
+
+# Function to handle processing
+do_work() {
+    year="$1"
+    input_file="$2"
+    output_dir="output_ed_$year"
+    output_file="$output_dir/$(basename "$input_file" .tif)_ed.tif"
+
+    if [ ! -d "$output_dir" ]; then
+        mkdir "$output_dir"
+    fi
+
+    python3 edge_density.py "$input_file" "$output_file" --pixel-class forest_cover
+}
+
+export -f do_work
+
+# Parallel execution
+for year in $(seq $start_year $end_year); do
+    find y_$year -name '*.tif' | parallel -j8 do_work "$year" {}
 done
-
-# Wait for all background jobs to finish
-wait
