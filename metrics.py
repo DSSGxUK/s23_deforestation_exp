@@ -16,8 +16,8 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         float: Average precision value.
     """
     # Get the file names in the directories
-    ground_truth_files = [file for file in os.listdir(ground_truth_dir) if not file.endswith('.tif.aux.xml')]
-    prediction_files = [file for file in os.listdir(prediction_dir) if not file.endswith('.tif.aux.xml')]
+    ground_truth_files = [file for file in os.listdir(ground_truth_dir) if file.endswith('.tif')]
+    prediction_files = [file for file in os.listdir(prediction_dir) if file.endswith('.tif')]
 
     # Sort the file names to ensure matching pairs
     ground_truth_files.sort()
@@ -38,11 +38,11 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
 
         # Read the ground truth data into a NumPy array
         ground_truth_array = dataset.read(1) 
-        ## unit conversion
+        ## unit conversion from 300m pixels to hectares 
         ground_truth_arr = ground_truth_array * 0.09
 
         # If the image has multiple bands, you can access each band individually
-        #]  # Access the first band (index 0)
+        #]  # Access the first band
 
         # Open the prediction file
         dataset = rasterio.open(prediction_path)
