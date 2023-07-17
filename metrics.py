@@ -23,9 +23,25 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
     ground_truth_files.sort()
     prediction_files.sort()
 
-    pred_sum_pertile = []
-    gt_sum_pertile = []
-    min_val_sum_pertile=[]
+    # Check if the number of files in each directory is the same
+    if len(ground_truth_files) != len(prediction_files):
+        raise ValueError("Number of ground truth files does not match number of prediction files.")
+
+    # Check if the file names match between the directories based on the first 2 characters
+    ground_truth_prefixes = {file[:2] for file in ground_truth_files}
+    prediction_prefixes = {file[:2] for file in prediction_files}
+    if ground_truth_prefixes != prediction_prefixes:
+        extra_ground_truth_files = [f for f in ground_truth_files if f[:2] not in prediction_prefixes]
+        extra_prediction_files = [f for f in prediction_files if f[:2] not in ground_truth_prefixes]
+        raise ValueError(
+            f"File names in ground truth and prediction folders do not match based on the first 2 characters! "
+            f"Extra ground truth files: {extra_ground_truth_files} "
+            f"Extra prediction files: {extra_prediction_files}."
+        )
+
+    pred_sum_per_tile = []
+    gt_sum_per_tile = []
+    min_val_sum_per_tile = []
 
     # Process each matching ground truth and prediction file
     for ground_truth_file, prediction_file in zip(ground_truth_files, prediction_files):
@@ -37,12 +53,9 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         dataset = rasterio.open(ground_truth_path)
 
         # Read the ground truth data into a NumPy array
-        ground_truth_array = dataset.read(1) 
-        ## unit conversion from 300m pixels to hectares 
+        ground_truth_array = dataset.read(1)
+        ## unit conversion from 300m pixels to hectares
         ground_truth_arr = ground_truth_array * 0.09
-
-        # If the image has multiple bands, you can access each band individually
-        #]  # Access the first band
 
         # Open the prediction file
         dataset = rasterio.open(prediction_path)
@@ -51,20 +64,17 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         prediction_array = dataset.read(1)
         prediction_arr = prediction_array
 
-        # If the image has multiple bands, you can access each band individually. Specifying first band only
-        
-
         min_arr = np.minimum(ground_truth_arr, prediction_arr)
-        # Append  values to the list
+        # Append values to the list
         min_val_sum_per_tile.append(np.sum(np.nan_to_num(min_arr)))
         pred_sum_per_tile.append(np.sum(np.nan_to_num(prediction_arr)))
-        gt_sum_per_tile.append(np.sum(np.nan_to_num(ground_truth_arr))) 
+        gt_sum_per_tile.append(np.sum(np.nan_to_num(ground_truth_arr)))
 
-    recall=np.sum(min_val_sum_per_tile)/np.sum(gt_sum_per_tile)
-    precision=np.sum(min_val_sum_per_tile)/np.sum(pred_sum_per_tile)
+    recall = np.sum(min_val_sum_per_tile) / np.sum(gt_sum_per_tile)
+    precision = np.sum(min_val_sum_per_tile) / np.sum(pred_sum_per_tile)
 
     # Calculate the average recall and precision based on non-NaN values
-    
+
     return {
         "recall": recall,
         "precision": precision,
