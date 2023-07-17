@@ -12,8 +12,8 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         prediction_dir (str): Directory path containing the prediction files.
 
     Returns:
-        float: Continuous recall value.
-        float: Continuous precision value.
+        float: Average recall value.
+        float: Average precision value.
     """
     # Get the file names in the directories
     ground_truth_files = [file for file in os.listdir(ground_truth_dir) if file.endswith('.tif')]
@@ -49,20 +49,18 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
         ground_truth_path = os.path.join(ground_truth_dir, ground_truth_file)
         prediction_path = os.path.join(prediction_dir, prediction_file)
 
-        # Open the ground truth file
-        dataset = rasterio.open(ground_truth_path)
+        # Open the ground truth file within a 'with' statement
+        with rasterio.open(ground_truth_path) as dataset:
+            # Read the ground truth data into a NumPy array
+            ground_truth_array = dataset.read(1)
+            ## unit conversion from 300m pixels to hectares
+            ground_truth_arr = ground_truth_array * 0.09
 
-        # Read the ground truth data into a NumPy array
-        ground_truth_array = dataset.read(1)
-        ## unit conversion from 300m pixels to hectares
-        ground_truth_arr = ground_truth_array * 0.09
-
-        # Open the prediction file
-        dataset = rasterio.open(prediction_path)
-
-        # Read the prediction data into a NumPy array
-        prediction_array = dataset.read(1)
-        prediction_arr = prediction_array
+        # Open the prediction file within a 'with' statement
+        with rasterio.open(prediction_path) as dataset:
+            # Read the prediction data into a NumPy array
+            prediction_array = dataset.read(1)
+            prediction_arr = prediction_array
 
         min_arr = np.minimum(ground_truth_arr, prediction_arr)
         # Append values to the list
