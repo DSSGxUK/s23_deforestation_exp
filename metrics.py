@@ -56,12 +56,12 @@ def calculate_metrics(ground_truth_dir, prediction_dir):
 
         min_arr = np.minimum(ground_truth_arr, prediction_arr)
         # Append  values to the list
-        min_val_sum_pertile.append(np.sum(np.nan_to_num(min_arr)))
-        pred_sum_pertile.append(np.sum(np.nan_to_num(prediction_arr)))
-        gt_sum_pertile.append(np.sum(np.nan_to_num(ground_truth_arr))) 
+        min_val_sum_per_tile.append(np.sum(np.nan_to_num(min_arr)))
+        pred_sum_per_tile.append(np.sum(np.nan_to_num(prediction_arr)))
+        gt_sum_per_tile.append(np.sum(np.nan_to_num(ground_truth_arr))) 
 
-    recall=np.sum(min_val_sum_pertile)/np.sum(gt_sum_pertile)
-    precision=np.sum(min_val_sum_pertile)/np.sum(pred_sum_pertile)
+    recall=np.sum(min_val_sum_per_tile)/np.sum(gt_sum_per_tile)
+    precision=np.sum(min_val_sum_per_tile)/np.sum(pred_sum_per_tile)
 
     # Calculate the average recall and precision based on non-NaN values
     
