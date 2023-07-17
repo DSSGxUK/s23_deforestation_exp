@@ -9,7 +9,7 @@ output_dir=$4               # Directory to save output
 # Create output dir if it doesn't exist
 mkdir -p $output_dir
 
-# Variables
+# Variables for creating arguments to gdal_calc.py
 args_in=""
 args_calc=""
 id=65
@@ -26,8 +26,6 @@ for ((year=$start_year; year<=$end_year; year++)); do
 
     # Increment id
     id=$((id+1))
-
-    cur_year=$((year-2000))
 
     # Add to calc
     args_calc="${args_calc} (${letter} == 1)*1 + "
