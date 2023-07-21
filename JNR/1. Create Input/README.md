@@ -1,6 +1,7 @@
 # Create Forest Cover Change Map
 
 The following script can be used to download, process and obtain maps of forest cover change (FCC) for the years 2000-2022 in the format of `fcc_123` where:
+ - 0 stands for no forest cover at the beginning of the first time period (set as No Data Value)
  - 1 stands for deforestation in the first time period
  - 2 stands for deforestation in the second time period
  - 3 stands for remaining forest cover
