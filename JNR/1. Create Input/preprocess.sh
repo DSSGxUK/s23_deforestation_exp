@@ -12,7 +12,7 @@ mkdir -p $output_dir
 # Variables for creating arguments to gdal_calc.py
 args_in=""
 args_calc=""
-id=65
+id=65                        # ASCII for 'A'
 
 # Create args for gdal_calc
 for ((year=$start_year; year<=$end_year; year++)); do
