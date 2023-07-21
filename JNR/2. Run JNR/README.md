@@ -7,6 +7,7 @@ The following script can be used to obtain maps of the spatial risk of deforesta
 ## Usage
 
 In the `jnr.py` script, set the parameters and specify the output directory where you want to store the results as well as the input file. The input file format is `fcc_123` (stands for Forest Cover Change) which is a raster file of past deforestation. It has the following format:
+- 0 stands for no forest cover at the beginning of the first time period (set as No Data Value)
 - 1 stands for deforestation in the first time period
 - 2 stands for deforestation in the second time period
 - 3 stands for remaining forest cover
