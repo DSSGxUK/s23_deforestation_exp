@@ -31,6 +31,7 @@ We divide the process into three steps:
 ### 1. Creating Input Files
 
 In order to run the JNR algorithm, we need to have the input file in `fcc_123` (stands for Forest Cover Change) format. This is a raster file of past deforestation and has the following format:
+- 0 stands for no forest cover at the beginning of the first time period (set as No Data Value)
 - 1 stands for deforestation in the first time period
 - 2 stands for deforestation in the second time period
 - 3 stands for remaining forest cover
