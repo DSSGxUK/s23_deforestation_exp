@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --job-name=create-pred-gt   # create a short name for your job
+#SBATCH --nodes=1                   # node count
+#SBATCH --ntasks=1                  # total number of tasks across all nodes
+#SBATCH --cpus-per-task=1           # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --time=05:00:00             # total run time limit (HH:MM:SS)
+#SBATCH --mem-per-cpu=24000
+
+module purge
+module load GCC/10.3.0  OpenMPI/4.1.1
+module load  GDAL/3.3.0
+
+./create_pred.sh /home/shared/dssg23-deforestation/jnr_outputs/MapBiomas/jnr_outputs_13-15-18/fullhist/defrate_per_cat_ws5_ea.csv /home/shared/dssg23-deforestation/jnr_outputs/MapBiomas/jnr_outputs_13-15-18/fullhist/riskmap_ws5_ea.tif /home/shared/dssg23-deforestation/jnr_eval/pred/13-15-18 2 6000
+./create_gt.sh 2019 /home/shared/dssg23-deforestation/create_jnr-input_mapbiomass/defor-masks/merged_map_defor_mask-2019.tif /home/shared/dssg23-deforestation/jnr_eval/gt 6000
