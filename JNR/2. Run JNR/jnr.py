@@ -38,7 +38,7 @@ def run_jnr(fcc_file, out_dir):
     # Run the JNR algorithm with validation
     results_makemap = rmj.makemap(
         fcc_file=fcc_file,
-        time_interval=[10, 10],
+        time_interval=[3, 3],
         output_dir=out_dir,
         clean=False,
         dist_bins=np.arange(0, 5000, step=30),
