@@ -14,10 +14,10 @@ This folder contains a script for calculating multi-year averages of deforestati
 
 This script takes four arguments:
 
-start_year - The starting year for the calculation.
-end_year - The ending year for the calculation.
-time_window - The time window (in years) for the calculation.
-input_dir_basename - The basename of the input directory containing the .tif files.
+* start_year - The starting year for the calculation.
+* end_year - The ending year for the calculation.
+* time_window - The time window (in years) for the calculation.
+* input_dir_basename - The basename of the input directory containing the .tif files.
 
 Before running the script, make sure to load the necessary modules:
 ```bash
