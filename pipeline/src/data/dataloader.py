@@ -36,9 +36,8 @@ class Biomass_Dataset(Dataset):
         x = torch.from_numpy(x).float()
 
         y = rasterio.open(osp.join(self.y_path, self.files[idx]))
-        y = y.read(self.num_years)
+        y = y.read([i for i in range(1, self.num_years + 1)])
         y = torch.from_numpy(y).float()
-        y = y.unsqueeze(0) if self.num_years == 1 else y
 
         if self.return_info:
             return x, y, meta_data, self.files[idx]
