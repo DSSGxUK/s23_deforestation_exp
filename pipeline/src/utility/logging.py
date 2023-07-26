@@ -41,7 +41,7 @@ def save_prediction(args, pred, meta_data, f_names):
     for i in range(len(f_names)):
         profile = meta_data[i]
         profile.update(
-            count = 1
+            count = args["modelling"]["model"]["out_channels"]
         )
         with rasterio.open(os.path.join(args['logging']['pred_dir'], f_names[i]), 'w', **profile) as dst:
             dst.write(pred[i].cpu().numpy())

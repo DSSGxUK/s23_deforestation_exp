@@ -12,12 +12,13 @@ from tqdm import tqdm
 class Biomass_Dataset(Dataset):
     """Custom dataset class for the data of a single participant."""
 
-    def __init__(self, x_path, y_path, use_tar=False, return_info=False): 
+    def __init__(self, x_path, y_path, use_tar=False, return_info=False, num_years=1): 
         """Constructor function to initiate the dataset object."""
         self.x_path = x_path
         self.y_path = y_path
         self.use_tar = use_tar
         self.return_info = return_info
+        self.num_years = num_years
         self.files = []
         # Get file names of all the files in the directory ending in *.tif
         for file in tqdm(glob.glob(osp.join(self.x_path, "*.tif"))):
@@ -30,15 +31,14 @@ class Biomass_Dataset(Dataset):
     def __getitem__(self, idx):
 
         x = rasterio.open(osp.join(self.x_path, self.files[idx]))
-        y = rasterio.open(osp.join(self.y_path, self.files[idx]))
-
         meta_data = x.meta.copy()
-
         x = x.read()
-        y = y.read(1)
-
         x = torch.from_numpy(x).float()
-        y = torch.from_numpy(y).float().unsqueeze(0)
+
+        y = rasterio.open(osp.join(self.y_path, self.files[idx]))
+        y = y.read(self.num_years)
+        y = torch.from_numpy(y).float()
+        y = y.unsqueeze(0) if self.num_years == 1 else y
 
         if self.return_info:
             return x, y, meta_data, self.files[idx]
@@ -55,6 +55,7 @@ def get_dataloaders(args):
             y_path = args["data"]["dataset"]["y_path"],
             use_tar = args["data"]["dataset"]["use_tar"],
             return_info = args["data"]["dataset"]["return_info"],
+            num_years = args["modelling"]["model"]["out_channels"]
         )
 
         val_size = int(args["data"]["validation_split"] * len(trainval_dataset))
@@ -92,6 +93,7 @@ def get_dataloaders(args):
             y_path = args["data"]["dataset"]["y_path"],
             use_tar = args["data"]["dataset"]["use_tar"],
             return_info = args["data"]["dataset"]["return_info"],
+            num_years = args["modelling"]["model"]["out_channels"]
         )
 
         test_dataloader = DataLoader(

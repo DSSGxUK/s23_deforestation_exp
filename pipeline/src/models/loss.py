@@ -106,10 +106,10 @@ class FocalLoss(nn.Module):
         self.eps = eps
         self.weights = weights
 
-    def _get_weights(self, target: Tensor) -> Tensor:
+    def _get_weights(self, target: Tensor, device) -> Tensor:
         if self.weights is None:
-            return torch.ones(target.shape[0])
-        weights = target * self.weights
+            return torch.ones(target.shape[0]).to(device)
+        weights = target * self.weights.to(device)
         return weights.sum(dim=-1)
 
     def _process_target(
@@ -148,7 +148,7 @@ class FocalLoss(nn.Module):
         x = self._process_preds(x)
         num_classes = x.shape[-1]
         target = self._process_target(target, num_classes, mask)
-        weights = self._get_weights(target).to(x.device)
+        weights = self._get_weights(target, x.device)
         pt = self._calc_pt(target, x, mask)
         focal = 1 - pt
         nll = -torch.log(self.eps + pt)
@@ -166,7 +166,7 @@ class FocalLoss(nn.Module):
 
 class Focal_Multilayer_Loss():
     
-    def __init__(self, gamma=2, weight=torch.Tensor([1, 10]).to('cuda'), size_average=None, ignore_index=-1, reduction='mean'):
+    def __init__(self, gamma=2, weight=[1, 10], size_average=None, ignore_index=-1, reduction='mean'):
         self.loss_fn = FocalLoss(gamma, weight, reduction, ignore_index)
         self.ignore_index = ignore_index
 

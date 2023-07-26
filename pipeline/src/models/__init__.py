@@ -29,7 +29,7 @@ def get_model_optimizer_criterion(args):
         criterion = Focal_Multilayer_Loss(
             gamma=args['modelling']['criterion']['params']['gamma'],
             ignore_index=args['data']['ignore_index'],
-            weight=torch.Tensor(args['modelling']['criterion']['params']['weight']).to(args['device'])
+            weight=torch.Tensor(args['modelling']['criterion']['params']['weight'])
         )
 
     return model, optimizer, criterion
