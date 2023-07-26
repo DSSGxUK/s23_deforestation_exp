@@ -1,70 +1,58 @@
 {
     "data" : {
         "dataset" : {
-            "folder_path" : "../Semantic Eye-Tracking/data/experiment1",
-            "transform" : {
-                "train" : {
-                    "transforms" : [
-                        {
-                            "name" : "ToTensor",
-                            "params" : {}
-                        }
-                    ]
-                },
-                "test" : {
-                    "transforms" : [
-                        {
-                            "name" : "ToTensor",
-                            "params" : {}
-                        }
-                    ]
-                }
-            },
-            "validation_split" : 0.2
+            "x_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/x_train",
+            "y_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/y_train"
         },
         "dataloader" : {
-            "batch_size" : 1,
+            "batch_size" : 8,
             "shuffle" : true,
             "num_workers" : 4,
             "pin_memory" : true
-        }
+        },
+        "validation_split" : 0.2,
+        "ignore_index" : -1
     },
 
-    "model" : {
-        "name" : "UNet++",
-        "loss" : {
-            "name" : "CrossEntropyLoss",
-            "params" : {}
+    "modelling" : {
+        "model" : {
+            "name" : "UNet",
+            "in_channels" : 4,
+            "out_channels" : 1
+        },
+        "optimizer" : {
+            "name" : "Adam",
+            "lr" : 0.001
+        },
+        "criterion" : {
+            "name" : "FocalLoss",
+            "params" : {
+                "gamma" : 2,
+                "weight" : [1, 10]
+            }
         }
     },
 
     "engine" : {
-        "optimizer" : {
-            "name" : "Adam",
-            "params" : {
-                "lr" : 0.001,
-                "weight_decay" : 0.0001
-            }
-        },
-        "lr_scheduler" : {
-            "name" : "StepLR",
-            "params" : {
-                "step_size" : 10,
-                "gamma" : 0.1
-            }
-        },
+        "mode" : "train",
         "epochs" : 30,
-        "checkpoint_interval" : 10000,
-        "checkpoint_path" : "../checkpoints/"
+        "evaluation_interval" : 5000
     },
 
     "logging" : {
-        "log_interval" : 100,
-        "dir_path" : "../logs/"
+        "ckp_dir" : "../checkpoints/",
+        "ckp_save_interval" : 5000,
+        "wandb_project" : "dssgx-deforestation",
+        "wandb_name" : "test-run",
+        "wandb_id" : null,
+        "wandb_watch_freq" : 100
     },
 
     "seed" : 0,
     "device" : "cuda",
-    "mode" : "train",
+
+    "threshold" : 0.5,
+
+    "restore_checkpoint" : false,
     "pretrained_weights" : null
 }
