@@ -7,6 +7,7 @@ from .logging import (
     log_wandb,
     save_ckp,
     load_ckp,
+    save_prediction,
 )
 from .metrics import (
     get_metrics,

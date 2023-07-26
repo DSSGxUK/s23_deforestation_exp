@@ -1,6 +1,8 @@
 import os
 import torch
 import wandb
+import rasterio
+
 
 def initialise_wandb(args):
     """Initialises WandB logging"""
@@ -32,3 +34,14 @@ def load_ckp(checkpoint_fpath, model, optimizer):
     model.load_state_dict(checkpoint['model_state_dict'])
     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
     return model, optimizer, checkpoint['epoch'], checkpoint['itr'], checkpoint['val_loss_min']
+
+
+def save_prediction(args, pred, meta_data, f_names):
+    """Saves prediction to disk"""
+    for i in range(len(f_names)):
+        profile = meta_data[i]
+        profile.update(
+            count = 1
+        )
+        with rasterio.open(os.path.join(args['logging']['pred_dir'], f_names[i]), 'w', **profile) as dst:
+            dst.write(pred[i].cpu().numpy())

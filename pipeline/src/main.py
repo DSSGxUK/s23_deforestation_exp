@@ -48,7 +48,7 @@ def main():
 
     elif args['engine']['mode'] == "test":
         print("\nStarting testing\n")
-        test_engine(args, dataloaders["test"], model, criterion)
+        test_engine(args, dataloaders["test"], model)
 
     print("\nDone!\n")
 

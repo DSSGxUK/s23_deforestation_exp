@@ -2,7 +2,9 @@
     "data" : {
         "dataset" : {
             "x_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/x_train",
-            "y_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/y_train"
+            "y_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/y_train",
+            "use_tar" : false,
+            "return_info" : false
         },
         "dataloader" : {
             "batch_size" : 8,
