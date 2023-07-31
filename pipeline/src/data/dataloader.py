@@ -12,7 +12,7 @@ from tqdm import tqdm
 class Biomass_Dataset(Dataset):
     """Custom dataset class for the data of a single participant."""
 
-    def __init__(self, x_path, y_path, use_tar=False, return_info=False, num_years=1): 
+    def __init__(self, x_path, y_path=None, use_tar=False, return_info=False, num_years=1): 
         """Constructor function to initiate the dataset object."""
         self.x_path = x_path
         self.y_path = y_path
@@ -30,17 +30,17 @@ class Biomass_Dataset(Dataset):
 
     def __getitem__(self, idx):
 
-        x = rasterio.open(osp.join(self.x_path, self.files[idx]))
-        meta_data = x.meta.copy()
-        x = x.read()
+        x = rasterio.open(osp.join(self.x_path, self.files[idx])).read()
         x = torch.from_numpy(x).float()
 
-        y = rasterio.open(osp.join(self.y_path, self.files[idx]))
-        y = y.read([i for i in range(1, self.num_years + 1)])
-        y = torch.from_numpy(y).float()
+        y = torch.zeros(1)
+        if self.y_path is not None:
+            y = rasterio.open(osp.join(self.y_path, self.files[idx]))
+            y = y.read([i for i in range(1, self.num_years + 1)])
+            y = torch.from_numpy(y).float()
 
         if self.return_info:
-            return x, y, meta_data, self.files[idx]
+            return x, y, self.files[idx]
         else:
             return x, y
 

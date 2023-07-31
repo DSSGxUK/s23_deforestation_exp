@@ -36,12 +36,13 @@ def load_ckp(checkpoint_fpath, model, optimizer):
     return model, optimizer, checkpoint['epoch'], checkpoint['itr'], checkpoint['val_loss_min']
 
 
-def save_prediction(args, pred, meta_data, f_names):
+def save_prediction(args, pred, paths):
     """Saves prediction to disk"""
-    for i in range(len(f_names)):
-        profile = meta_data[i]
+    for i in range(len(paths)):
+        src = rasterio.open(os.path.join(args['data']['dataset']['x_path'], paths[i]))
+        profile = src.profile
         profile.update(
             count = args["modelling"]["model"]["out_channels"]
         )
-        with rasterio.open(os.path.join(args['logging']['pred_dir'], f_names[i]), 'w', **profile) as dst:
+        with rasterio.open(os.path.join(args['logging']['pred_dir'], paths[i]), 'w', **profile) as dst:
             dst.write(pred[i].cpu().numpy())
