@@ -24,9 +24,10 @@ def feature_ablation(args, dataloader, model, criterion):
                 loss_vals.append(criterion(out[idx].unsqueeze(0), y).item())
 
             loss_vals = sorted(enumerate(loss_vals), key=lambda x: x[1], reverse=True)
-            # Remove the loss values which have equal values
-            loss_vals = [ loss_vals[0] ] + [ loss_vals[i] for i in range(1, len(loss_vals)) if loss_vals[i][1] != loss_vals[i-1][1] ]
-            max_loss_vals = loss_vals[0][1]
+            loss_vals_data = [loss_vals[0]] + [loss_vals[i] for i in range(1, len(loss_vals)) if loss_vals[i][1] != loss_vals[i-1][1]]
+            loss_vals_data = loss_vals_data[:-1] if loss_vals_data[-1][1] == loss_vals[-1][1] else loss_vals_data
+            max_loss_vals = loss_vals_data[0][1]
+            
             loss_data = []
             for idx, val in loss_vals:
                 loss_data.append(args['data']['data_description'][idx][0])
