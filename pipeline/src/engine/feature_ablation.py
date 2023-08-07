@@ -29,7 +29,7 @@ def feature_ablation(args, dataloader, model, criterion):
             max_loss_vals = loss_vals_data[0][1]
             
             loss_data = []
-            for idx, val in loss_vals:
+            for idx, val in loss_vals_data:
                 loss_data.append(args['data']['data_description'][idx][0])
                 loss_data.append(val)
                 loss_data.append(val / max_loss_vals)

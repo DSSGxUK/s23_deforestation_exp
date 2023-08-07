@@ -1,0 +1,60 @@
+{
+    "data" : {
+        "dataset" : {
+            "x_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/x_train_logdtr",
+            "y_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/y_train_logdtr",
+            "use_tar" : false,
+            "return_info" : false
+        },
+        "dataloader" : {
+            "batch_size" : 8,
+            "shuffle" : true,
+            "num_workers" : 4,
+            "pin_memory" : true
+        },
+        "validation_split" : 0.2,
+        "ignore_index" : -1
+    },
+
+    "modelling" : {
+        "model" : {
+            "name" : "UNet",
+            "in_channels" : 7,
+            "out_channels" : 3
+        },
+        "optimizer" : {
+            "name" : "Adam",
+            "lr" : 0.1
+        },
+        "criterion" : {
+            "name" : "FocalLoss",
+            "params" : {
+                "gamma" : 2,
+                "weight" : [1, 30]
+            }
+        }
+    },
+
+    "engine" : {
+        "mode" : "train",
+        "epochs" : 3,
+        "evaluation_interval" : 5000
+    },
+
+    "logging" : {
+        "ckp_dir" : "/home/shared/dssg23-deforestation/model_checkpoints/checkpoints_lr-1_FL-30_log/",
+        "ckp_save_interval" : 5000,
+        "wandb_project" : "dssgx-deforestation",
+        "wandb_name" : "lr-1_FL-30_log",
+        "wandb_id" : null,
+        "wandb_watch_freq" : 100
+    },
+
+    "seed" : 0,
+    "device" : "cuda",
+
+    "threshold" : 0.5,
+
+    "restore_checkpoint" : false,
+    "pretrained_weights" : null
+}

@@ -1,10 +1,10 @@
 {
     "data" : {
         "dataset" : {
-            "x_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/x_train_datacube_all",
+            "x_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/x_train_datacube_sampled_new",
             "y_path" : null,
             "use_tar" : false,
-            "return_info" : false
+            "return_info" : true
         },
         "dataloader" : {
             "batch_size" : 8,
@@ -15,20 +15,20 @@
         "validation_split" : 0.2,
         "ignore_index" : -1,
         "data_description" : [
-            ["proximity_log", 3, 10.157628, 10.164319, 10.157533],
+            ["proximity_log", 3, 1.699707773203376, 1.7019313645609526, 1.7032906650301076],
             ["edge_density", 3, 0, 0, 0],
             ["mining", 3, 0, 0, 0],
             ["agriculture_and_pasture", 3, 0, 0, 0],
             ["areas_indigenous", 1, 0],
             ["areas_protected", 1, 0],
-            ["distance_roads_log", 1, 0]
+            ["distance_roads_log", 1, 1.63270539374704]
         ]
     },
 
     "modelling" : {
         "model" : {
             "name" : "UNet",
-            "in_channels" : 6,
+            "in_channels" : 15,
             "out_channels" : 1
         },
         "optimizer" : {
@@ -36,7 +36,7 @@
             "lr" : 0.01
         },
         "criterion" : {
-            "name" : "FocalLoss",
+            "name" : "NLLLoss",
             "params" : {
                 "gamma" : 2,
                 "weight" : [1, 20]
@@ -45,18 +45,18 @@
     },
 
     "engine" : {
-        "mode" : "train",
+        "mode" : "feature_ablation",
         "epochs" : 30,
         "evaluation_interval" : 5000,
         "num_ablation_layers" : 3,
-        "feature_ablation_out_csv" : "/home/shared/dssg23-deforestation/feature_ablation_out.csv"
+        "feature_ablation_out_csv" : "/home/shared/dssg23-deforestation/model_checkpoints/outputs/preds_lr-01_FL-20_log_itr2/pred_15/feature_ablation_out_defor-only.csv"
     },
 
     "logging" : {
-        "ckp_dir" : "/home/shared/dssg23-deforestation/model_checkpoints/checkpoints_lr-01_FL-20_log_wo-road/",
+        "ckp_dir" : "/home/shared/dssg23-deforestation/model_checkpoints/checkpoints_lr-01_FL-20_log_itr2/",
         "ckp_save_interval" : 5000,
         "wandb_project" : "dssgx-deforestation",
-        "wandb_name" : "lr-01_FL-20_log_wo-road",
+        "wandb_name" : "lr-01_FL-20_log_itr2",
         "wandb_id" : null,
         "wandb_watch_freq" : 100
     },
@@ -66,6 +66,6 @@
 
     "threshold" : 0.5,
 
-    "restore_checkpoint" : false,
-    "pretrained_weights" : null
+    "restore_checkpoint" : true,
+    "pretrained_weights" : "/home/shared/dssg23-deforestation/model_checkpoints/checkpoints_lr-01_FL-20_log_itr2/ckp_epoch_25_itr_75000_val_loss_0.019428.pth"
 }

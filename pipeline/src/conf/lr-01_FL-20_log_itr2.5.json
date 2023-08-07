@@ -1,8 +1,8 @@
 {
     "data" : {
         "dataset" : {
-            "x_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/x_train_datacube_all",
-            "y_path" : null,
+            "x_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/x_train_datacube_sampled_fixed_past-mining",
+            "y_path" : "/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/y_train_datacube",
             "use_tar" : false,
             "return_info" : false
         },
@@ -13,22 +13,13 @@
             "pin_memory" : true
         },
         "validation_split" : 0.2,
-        "ignore_index" : -1,
-        "data_description" : [
-            ["proximity_log", 3, 10.157628, 10.164319, 10.157533],
-            ["edge_density", 3, 0, 0, 0],
-            ["mining", 3, 0, 0, 0],
-            ["agriculture_and_pasture", 3, 0, 0, 0],
-            ["areas_indigenous", 1, 0],
-            ["areas_protected", 1, 0],
-            ["distance_roads_log", 1, 0]
-        ]
+        "ignore_index" : -1
     },
 
     "modelling" : {
         "model" : {
             "name" : "UNet",
-            "in_channels" : 6,
+            "in_channels" : 15,
             "out_channels" : 1
         },
         "optimizer" : {
@@ -46,17 +37,15 @@
 
     "engine" : {
         "mode" : "train",
-        "epochs" : 30,
-        "evaluation_interval" : 5000,
-        "num_ablation_layers" : 3,
-        "feature_ablation_out_csv" : "/home/shared/dssg23-deforestation/feature_ablation_out.csv"
+        "epochs" : 3,
+        "evaluation_interval" : 5000
     },
 
     "logging" : {
-        "ckp_dir" : "/home/shared/dssg23-deforestation/model_checkpoints/checkpoints_lr-01_FL-20_log_wo-road/",
+        "ckp_dir" : "/home/shared/dssg23-deforestation/model_checkpoints/checkpoints_lr-01_FL-20_log_itr2.5/",
         "ckp_save_interval" : 5000,
         "wandb_project" : "dssgx-deforestation",
-        "wandb_name" : "lr-01_FL-20_log_wo-road",
+        "wandb_name" : "lr-01_FL-20_log_itr2.5",
         "wandb_id" : null,
         "wandb_watch_freq" : 100
     },
