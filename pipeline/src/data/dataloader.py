@@ -12,18 +12,23 @@ from tqdm import tqdm
 class Biomass_Dataset(Dataset):
     """Custom dataset class for the data of a single participant."""
 
-    def __init__(self, x_path, y_path=None, use_tar=False, return_info=False, num_years=1): 
+    def __init__(self, x_path, y_path=None, use_tar=False, return_info=False, num_years=1, feature_ablation=False, data_description=None): 
         """Constructor function to initiate the dataset object."""
+        self.band_stats = data_description
         self.x_path = x_path
         self.y_path = y_path
         self.use_tar = use_tar
         self.return_info = return_info
         self.num_years = num_years
         self.files = []
+        self.feature_ablation = feature_ablation
         # Get file names of all the files in the directory ending in *.tif
         for file in tqdm(glob.glob(osp.join(self.x_path, "*.tif"))):
             file = file.split("/")[-1]
-            self.files.append(file)
+            if self.y_path is None:
+                self.files.append(file)
+            elif osp.exists(osp.join(self.y_path, file)):
+                self.files.append(file)
 
     def __len__(self):
         return len(self.files)
@@ -32,6 +37,18 @@ class Biomass_Dataset(Dataset):
 
         x = rasterio.open(osp.join(self.x_path, self.files[idx])).read()
         x = torch.from_numpy(x).float()
+
+        if self.feature_ablation:
+            layer_num = 0
+            batch = torch.zeros((len(self.band_stats)+1, *x.shape))
+            batch[0] = x.clone()
+            for i, layer in enumerate(self.band_stats):
+                x_copy = x.clone()
+                for j in range(layer[1]):
+                    x_copy[layer_num+j] = layer[2+j]
+                batch[i+1] = x_copy
+                layer_num += layer[1]
+            x = batch
 
         y = torch.zeros(1)
         if self.y_path is not None:
@@ -98,6 +115,30 @@ def get_dataloaders(args):
         test_dataloader = DataLoader(
             test_dataset,
             batch_size = args["data"]["dataloader"]["batch_size"],
+            shuffle = args["data"]["dataloader"]["shuffle"],
+            num_workers = args["data"]["dataloader"]["num_workers"],
+            pin_memory = args["data"]["dataloader"]["pin_memory"]
+        )
+
+        return {
+            "test": test_dataloader,
+        }
+
+    elif args["engine"]["mode"] == "feature_ablation":
+
+        test_dataset = Biomass_Dataset(
+            x_path = args["data"]["dataset"]["x_path"], 
+            y_path = args["data"]["dataset"]["y_path"],
+            use_tar = args["data"]["dataset"]["use_tar"],
+            return_info = args["data"]["dataset"]["return_info"],
+            num_years = args["modelling"]["model"]["out_channels"],
+            feature_ablation = True, 
+            data_description = args['data']['data_description']
+        )
+
+        test_dataloader = DataLoader(
+            test_dataset,
+            batch_size = 1,
             shuffle = args["data"]["dataloader"]["shuffle"],
             num_workers = args["data"]["dataloader"]["num_workers"],
             pin_memory = args["data"]["dataloader"]["pin_memory"]

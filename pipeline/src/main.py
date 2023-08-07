@@ -7,6 +7,7 @@ from utility import (
 from engine import (
     train_engine,
     test_engine,
+    feature_ablation
 )
 from data import (
     get_dataloaders,
@@ -38,6 +39,7 @@ def main():
     val_loss_min = float('inf')
     
     if args['restore_checkpoint'] == True:
+        print("\nRestoring checkpoint from path:", args['pretrained_weights'] ,"\n")
         model, optimizer, start_epoch, start_itr, val_loss_min = load_ckp(args['pretrained_weights'], model, optimizer)
         model = model.to(args['device'])
     
@@ -49,6 +51,10 @@ def main():
     elif args['engine']['mode'] == "test":
         print("\nStarting testing\n")
         test_engine(args, dataloaders["test"], model)
+
+    elif args['engine']['mode'] == "feature_ablation":
+        print("\nStarting feature ablation\n")
+        feature_ablation(args, dataloaders["test"], model, criterion)
 
     print("\nDone!\n")
 
