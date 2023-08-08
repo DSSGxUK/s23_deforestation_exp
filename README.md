@@ -23,7 +23,9 @@ It uses the [Mapbiomas](https://https://mapbiomas.org/en/download) dataset, and 
 
 _Fig.2. Avg 5-year benchmark diagram_
 
+## Deep Learning Model - UNet
 
+The pipeline for the UNet model is implemented in the folder [pipeline](./pipeline/) and included functionality for training, testing and running feature ablation. The model is trained on the [Mapbiomas](https://https://mapbiomas.org/en/download) dataset and all the metrics are logged onto [wandb](https://wandb.ai/). 
 
 ## Additional Experiments
 - Data preprocessing:
