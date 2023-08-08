@@ -2,6 +2,7 @@ import os
 import torch
 import wandb
 import rasterio
+import numpy as np
 
 
 def initialise_wandb(args):
@@ -36,13 +37,38 @@ def load_ckp(checkpoint_fpath, model, optimizer):
     return model, optimizer, checkpoint['epoch'], checkpoint['itr'], checkpoint['val_loss_min']
 
 
-def save_prediction(args, pred, paths):
+def save_prediction(args, pred, paths, num_bands=3):
     """Saves prediction to disk"""
     for i in range(len(paths)):
         src = rasterio.open(os.path.join(args['data']['dataset']['x_path'], paths[i]))
         profile = src.profile
         profile.update(
-            count = args["modelling"]["model"]["out_channels"]
+            count = num_bands
         )
         with rasterio.open(os.path.join(args['logging']['pred_dir'], paths[i]), 'w', **profile) as dst:
-            dst.write(pred[i].cpu().numpy())
+            dst.write(pred[i])
+
+
+def create_feature_interpret_tiles(args):
+    """Creates feature interpretation map"""
+    feature_2_idx = { itm[0] : idx+1 for idx, itm in enumerate(args['data']['dataset']['data_description']) }
+    print("Feature to index mapping: {}".format(feature_2_idx))
+    with open(args['engine']['feature_ablation_out_csv'], 'r') as f:
+        lines = f.readlines()
+        for line in tqdm(lines):
+            elements = line.split(',')
+            file_name = elements[0]
+            amt_deforestation = elements[1]
+            # Skip if no deforestation
+            if amt_deforestation == '0':
+                continue
+            # Process feature list
+            feature_list = line.split(',')[2:]
+            feature_list[-1] = feature_list[-1].replace('\n', '')
+            feature_encoded = [ feature_2_idx[feature_list[i]] for i in range(0, len(feature_list), 3) ]
+            top_feature_encoded = [ [[itm]] for itm in feature_encoded]
+            feature_encoded_array = np.array((args['engine']['num_top_fa_features'], 1, 1))
+            for i in range(min(len(top_feature_encoded)), args['engine']['num_top_fa_features']):
+                feature_encoded_array[i][0][0] = top_feature_encoded[i]
+            # Save predictions
+            save_prediction(args, feature_encoded_array, [file_name], args['engine']['num_top_fa_features'])

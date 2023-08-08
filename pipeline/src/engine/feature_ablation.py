@@ -2,6 +2,7 @@ import torch
 import os
 import pandas as pd
 from tqdm import tqdm
+from utility import create_feature_interpret_tiles
 
 
 def feature_ablation(args, dataloader, model, criterion):
@@ -17,7 +18,7 @@ def feature_ablation(args, dataloader, model, criterion):
             out = model(img)
 
             y = out[0].unsqueeze(0)
-            amt_defor = torch.sum(y >= 0.6).item()
+            amt_defor = torch.sum(y >= args['threshold']).item()
 
             loss_vals = []
             for idx in range(1, img.shape[0]):
@@ -39,3 +40,7 @@ def feature_ablation(args, dataloader, model, criterion):
             # Save list as a row in a csv file
             df = pd.DataFrame([feature_importance])
             df.to_csv(args['engine']['feature_ablation_out_csv'], mode='a', header=False, index=False)
+
+    print('Feature ablation csv saved at {}'.format(args['engine']['feature_ablation_out_csv']))
+    print('Creating feature interpretation tiles...')
+    create_feature_interpret_tiles(args)    
