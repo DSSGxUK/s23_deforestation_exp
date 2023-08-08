@@ -41,8 +41,7 @@ pipeline
     └── post_process                <- Scripts to post process model outputs and generate metrics
         ├── generate_gt.sh
         ├── generate_model_output_single.sh
-        ├── evalaute.py
-        └── metrics.py
+        └── evalaute.py
 ```
 
 ## Requirements
