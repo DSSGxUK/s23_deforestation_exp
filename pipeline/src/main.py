@@ -1,3 +1,7 @@
+import sys
+sys.path.append('./')
+import wandb
+
 from utility import (
     get_args,
     set_seed,
@@ -13,9 +17,7 @@ from data import (
     get_dataloaders,
 )
 from models import get_model_optimizer_criterion
-import sys
-sys.path.append('./')
-import wandb
+
 
 def main():
 

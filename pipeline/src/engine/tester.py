@@ -16,4 +16,5 @@ def test_engine(args, dataloader, model):
             img, gt, paths = batch
             img, gt = img.to(device), gt.to(device)
             out = model(img)
-            save_prediction(args, out, paths)
+            out = out.cpu().numpy()
+            save_prediction(args, out, paths, args['modelling']['model']['out_channels'])

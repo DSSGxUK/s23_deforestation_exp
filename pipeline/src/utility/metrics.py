@@ -21,6 +21,5 @@ def get_metrics(args, out, gt):
     metrics['recall'] = recall
     metrics['f1'] = f1score
     metrics['accuracy'] = (gt == out).mean()
-    # TODO: add more metrics   
-    # metrics['iou'] = iou
+    
     return metrics

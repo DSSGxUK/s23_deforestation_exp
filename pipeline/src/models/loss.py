@@ -1,11 +1,9 @@
-from torch.nn import BCELoss
-from torchvision.ops import sigmoid_focal_loss
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from torch.nn.functional import one_hot
+from torch.nn import BCELoss
 from torch import Tensor
 from typing import Union
 

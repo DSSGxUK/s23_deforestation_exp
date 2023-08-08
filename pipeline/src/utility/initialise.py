@@ -1,8 +1,8 @@
 import os
 import json
 import random
-import numpy as np
 import torch
+import numpy as np
 from argparse import ArgumentParser
 
 
