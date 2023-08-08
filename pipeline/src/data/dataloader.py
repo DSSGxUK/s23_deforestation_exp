@@ -9,11 +9,10 @@ from torch.utils.data import Dataset, DataLoader, random_split
 class Biomass_Dataset(Dataset):
     """Custom dataset class for the data of a single participant."""
 
-    def __init__(self, x_path, y_path=None, use_tar=False, return_info=False, num_years=1, feature_ablation=False, data_description=None): 
+    def __init__(self, x_path, y_path=None, return_info=False, num_years=1, feature_ablation=False, data_description=None): 
         """Constructor function to initiate the dataset object."""
         self.x_path = x_path
         self.y_path = y_path
-        self.use_tar = use_tar
         self.return_info = return_info
         self.num_years = num_years
         self.feature_ablation = feature_ablation
