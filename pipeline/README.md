@@ -57,7 +57,7 @@ source dl_env/bin/activate
 
 # Install PyTorch
 pip3 install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip3 install wandb==0.13.1 rasterio tqdm scikit-learn
+pip3 install wandb==0.13.1 rasterio tqdm scikit-learn pandas
 ```
 
 This version is not currently on Avon and hence you will need to install it manually, and additionally load some modules.
@@ -72,7 +72,7 @@ source dl_env/bin/activate
 
 # Install PyTorch
 pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip3 install wandb==0.13.1 rasterio tqdm scikit-learn
+pip3 install wandb==0.13.1 rasterio tqdm scikit-learn pandas
 ```
 
 ### Data setup
@@ -244,4 +244,3 @@ find "${dir}" -name "*.tif" > tiff_list.txt
 gdalbuildvrt -vrtnodata -1 -overwrite -input_file_list tiff_list.txt "${dir}/merged_file.vrt"
 gdal_translate -of GTiff -a_nodata -1 "${dir}/merged_file.vrt" "${dir}/merged_file.tif"
 ```
-
