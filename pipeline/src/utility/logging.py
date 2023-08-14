@@ -3,6 +3,7 @@ import torch
 import wandb
 import rasterio
 import numpy as np
+from tqdm import tqdm
 
 
 def initialise_wandb(args):
@@ -51,7 +52,7 @@ def save_prediction(args, pred, paths, num_bands=3):
 
 def create_feature_interpret_tiles(args):
     """Creates feature interpretation map"""
-    feature_2_idx = { itm[0] : idx+1 for idx, itm in enumerate(args['data']['dataset']['data_description']) }
+    feature_2_idx = { itm[0] : idx+1 for idx, itm in enumerate(args['data']['data_description']) }
     print("Feature to index mapping: {}".format(feature_2_idx))
     with open(args['engine']['feature_ablation_out_csv'], 'r') as f:
         lines = f.readlines()
@@ -67,8 +68,8 @@ def create_feature_interpret_tiles(args):
             feature_list[-1] = feature_list[-1].replace('\n', '')
             feature_encoded = [ feature_2_idx[feature_list[i]] for i in range(0, len(feature_list), 3) ]
             top_feature_encoded = [ [[itm]] for itm in feature_encoded]
-            feature_encoded_array = np.array((args['engine']['num_top_fa_features'], 1, 1))
-            for i in range(min(len(top_feature_encoded)), args['engine']['num_top_fa_features']):
-                feature_encoded_array[i][0][0] = top_feature_encoded[i]
+            feature_encoded_array = np.zeros((args['engine']['num_top_fa_features'], 1, 1))
+            for i in range(min(len(top_feature_encoded), args['engine']['num_top_fa_features'])):
+                feature_encoded_array[i][0][0] = top_feature_encoded[i][0][0]
             # Save predictions
-            save_prediction(args, feature_encoded_array, [file_name], args['engine']['num_top_fa_features'])
+            save_prediction(args, [feature_encoded_array], [file_name], args['engine']['num_top_fa_features'])
