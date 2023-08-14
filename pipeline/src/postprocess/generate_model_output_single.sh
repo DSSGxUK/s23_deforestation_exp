@@ -30,6 +30,8 @@ gdalwarp -dstnodata -1 -cutline $shp_file -crop_to_cutline -of GTiff "${out_dir}
 # Threshold the predictions
 for threshold in "${thresholds[@]}"
 do
+    gdal_calc.py -A "${out_dir}/merged_file_fc-processed_cut.tif" --outfile="${out_dir}/merged_file_fc-processed_cut_${threshold}.tif" --calc="A>=${threshold}" --NoDataValue=-1
+
     # Convert maps to m^2
     gdal_calc.py -A "${out_dir}/merged_file_fc-processed_cut_${threshold}.tif" --outfile="${out_dir}/merged_file_fc-processed_cut_${threshold}_m2.tif" --calc="A*900" --NoDataValue=-1
 
