@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# SLURM settings
+JOB_NAME="clip-tifs"
+NODES=1
+NTASKS=1
+CPUS_PER_TASK=24
+RUN_TIME="48:00:00"
+MEM_PER_CPU=3700
+
+# Paths and arguments
+WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline"
+PYTHON_ENV="/home/wbs/csuqqj/myenv/bin/activate"
+LOG_FILE="logs/cut_tiles.log"
+SHAPEFILE="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/amazon_biome_border_epsg3854/amazon_biome_border_epsg3854.shp"
+OVERWRITE=true  # Set to true or false
+
+# Modules to load
+MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
+
+# Files to process
+FILES=(
+"Data/Dynamic/y/2020/cut.tif"
+)
+
+# Submit to SLURM
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --nodes=$NODES
+#SBATCH --ntasks=$NTASKS
+#SBATCH --cpus-per-task=$CPUS_PER_TASK
+#SBATCH --time=$RUN_TIME
+#SBATCH --mem-per-cpu=$MEM_PER_CPU
+
+# Set the working directory 
+cd $WORK_DIR
+
+# Activate Python Environment
+source $PYTHON_ENV
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+cut_tif() {
+    input_tif="$1"
+    output_tif="${input_tif%.tif}_cropped.tif" # Append "_cropped" to the input filename for the output
+
+    if $OVERWRITE || [ ! -f "$output_tif" ]; then
+        gdalwarp -overwrite -cutline "$SHAPEFILE" -crop_to_cutline -of GTiff \
+        -co COMPRESS=DEFLATE -co BIGTIFF=YES -co ZLEVEL=1 \
+        "$input_tif" "$output_tif" #>> $LOG_FILE 
+    fi
+}
+
+export -f cut_tif
+export SHAPEFILE
+export OVERWRITE
+export LOG_FILE
+
+parallel -j 8 cut_tif ::: "${FILES[@]}"

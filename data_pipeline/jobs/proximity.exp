@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# SLURM settings
+JOB_NAME="proximity"
+NODES=1
+NTASKS=1
+CPUS_PER_TASK=48
+RUN_TIME="48:00:00"
+MEM_PER_CPU=3700
+
+# Paths
+WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline"
+ENV_PATH="/home/wbs/csuqqj/myenv/bin/activate"
+LOG_PATH="logs/proximity.log"
+
+# Modules
+MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
+
+# Directories
+SRC_DIR="Data/Dynamic"
+DST_DIR="Temp/Dynamic"
+FEATURE="y" # example: "y" here represents a placeholder for any feature.
+
+# Submit to SLURM
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --nodes=$NODES
+#SBATCH --ntasks=$NTASKS
+#SBATCH --cpus-per-task=$CPUS_PER_TASK
+#SBATCH --time=$RUN_TIME
+#SBATCH --mem-per-cpu=$MEM_PER_CPU
+
+# Set the working directory 
+cd $WORK_DIR
+
+source $ENV_PATH
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+# Print start date and time
+echo "Job started on `hostname` at `date`" > $LOG_PATH
+
+# For each feature, get all unique years, and copy the cut.tif file
+years=$(find "$SRC_DIR/$FEATURE" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
+for year in $years
+do
+    # Check if file exists
+    if [ -f "$SRC_DIR/$FEATURE/$year/cut.tif" ]
+    then
+        # Make sure the destination directory exists
+        mkdir -p "$DST_DIR/proximity/$year"
+        gdal_proximity.py "$SRC_DIR/$FEATURE/$year/cut.tif" "$DST_DIR/proximity/$year/cut.tif" -values 1
+    fi
+done
+
+# Print end date and time
+echo "Job ended on `hostname` at `date`" >> $LOG_PATH

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# SLURM settings
+JOB_NAME="sample-deforestation"
+NODES=1
+NTASKS=1
+CPUS_PER_TASK=48
+RUN_TIME="48:00:00"
+MEM_PER_CPU=3700
+
+# Paths and parameters
+WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/combine-test copy"
+PYTHON_ENV="/home/wbs/csuqqj/myenv/bin/activate"
+LOG_FILE="logs/sample.log"
+INPUT_FILES=("Data/Dynamic/y/2015/cut.tif" "Data/Dynamic/y/2016/cut.tif" "Data/Dynamic/y/2017/cut.tif")
+OUTPUT_MASK="mask.npy"
+WINDOW_SIZE=256
+
+# Modules to load
+MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
+
+# Submit to SLURM
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --nodes=$NODES
+#SBATCH --ntasks=$NTASKS
+#SBATCH --cpus-per-task=$CPUS_PER_TASK
+#SBATCH --time=$RUN_TIME
+#SBATCH --mem-per-cpu=$MEM_PER_CPU
+
+# Set the working directory 
+cd $WORK_DIR
+
+# Activate Python Environment
+source $PYTHON_ENV
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+# Print start date and time
+echo "Job started on `hostname` at `date`" > $LOG_FILE
+
+# Run the Python script
+python sample_deforestation.py --input_files "${INPUT_FILES[@]}" --output_mask $OUTPUT_MASK --window_size $WINDOW_SIZE >> $LOG_FILE 2>&1
+
+# Print end date and time
+echo "Job ended on `hostname` at `date`" >> $LOG_FILE

@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# SLURM settings
+JOB_NAME="calc"
+NODES=1
+NTASKS=1
+CPUS_PER_TASK=48
+RUN_TIME="24:00:00"
+MEM_PER_CPU=3700
+
+# Paths and arguments
+WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline"
+PYTHON_ENV="/home/wbs/csuqqj/myenv/bin/activate"
+SHAPEFILE="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline/amazon_biome_border_epsg3854/amazon_biome_border_epsg3854.shp"
+OVERWRITE=true  # Adjust as needed.
+OUTPUT_DIR="pickles_actual"
+
+# Modules to load
+MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
+
+# Files for calculation
+FILES=(
+"Test_Data/Dynamic/proximity_log/2012/cut_cropped.tif"
+"Test_Data/Dynamic/proximity_log/2013/cut_cropped.tif"
+"Test_Data/Dynamic/proximity_log/2014/cut_cropped.tif"
+"Data/Dynamic/edge_density/2012/new_cropped.tif"
+"Data/Dynamic/edge_density/2013/new_cropped.tif"
+"Data/Dynamic/edge_density/2014/new_cropped.tif"
+"DataNewFeatures/Dynamic/mining/2012/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/mining/2013/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/mining/2014/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/pasture_quality/2012/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/pasture_quality/2013/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/pasture_quality/2014/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/gdp_per_capita/2012/gdp_cropped.tif"
+"DataNewFeatures/Dynamic/gdp_per_capita/2013/gdp_cropped.tif"
+"DataNewFeatures/Dynamic/gdp_per_capita/2014/gdp_cropped.tif"
+"DataNewFeatures/Dynamic/soil/2012/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/soil/2013/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/soil/2014/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/fire/2012/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/fire/2013/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Dynamic/fire/2014/reprojected_and_resampled_cropped.tif"
+"DataNewFeatures/Static/elevation/cut_cropped.tif"
+"DataNewFeatures/Static/slope/slope_cropped.tif"
+"Test_Data/Static/areas_indigenous/cut_cropped.tif"
+"Test_Data/Static/areas_protected/cut_cropped.tif"
+"Test_Data/Static/distance_roads_log/cut_cropped.tif"
+)
+
+# Submit to SLURM
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --nodes=$NODES
+#SBATCH --ntasks=$NTASKS
+#SBATCH --cpus-per-task=$CPUS_PER_TASK
+#SBATCH --time=$RUN_TIME
+#SBATCH --mem-per-cpu=$MEM_PER_CPU
+
+# Set the working directory 
+cd $WORK_DIR
+
+# Activate Python Environment
+source $PYTHON_ENV
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+# Print start date and time
+echo "Job started on `hostname` at `date`"
+
+# Run the Python script
+python calculate_global_stats.py --input_files "${FILES[@]}" --output_dir $OUTPUT_DIR --shapefile_path $SHAPEFILE --overwrite sg3854.shp"
