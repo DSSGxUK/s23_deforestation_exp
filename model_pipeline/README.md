@@ -57,7 +57,7 @@ source dl_env/bin/activate
 
 # Install PyTorch
 pip3 install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip3 install wandb==0.13.1 rasterio tqdm scikit-learn pandas
+pip3 install wandb==0.13.1 rasterio==1.3.8 tqdm==4.66.0 scikit-learn==1.3.0 pandas==1.1.4
 ```
 
 This version is not currently on Avon and hence you will need to install it manually, and additionally load some modules.
@@ -72,7 +72,7 @@ source dl_env/bin/activate
 
 # Install PyTorch
 pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip3 install wandb==0.13.1 rasterio tqdm scikit-learn pandas
+pip3 install wandb==0.13.1 rasterio==1.3.8 tqdm==4.66.0 scikit-learn==1.3.0 pandas==1.1.4
 ```
 
 ### Data setup
