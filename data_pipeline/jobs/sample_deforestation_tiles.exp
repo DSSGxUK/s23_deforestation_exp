@@ -1,31 +1,30 @@
 #!/bin/bash
+CONFIG_FILE="config.yml"
+JOB_NAME="$1" # The specific job name passed as an argument (e.g., stack_xtest)
 
-# SLURM settings
-JOB_NAME="sample-deforestation"
-NODES=1
-NTASKS=1
-CPUS_PER_TASK=48
-RUN_TIME="48:00:00"
-MEM_PER_CPU=3700
+if [ -z "$JOB_NAME" ]; then
+    echo "You must provide a job name as an argument."
+    exit 1
+fi
+
+# SLURM directives
+#SBATCH --job-name=$(yq eval ".jobs.$JOB_NAME.JOB_NAME" $CONFIG_FILE)
+#SBATCH --nodes=$(yq eval '.SLURM.DEFAULT.NODES' $CONFIG_FILE)
+#SBATCH --ntasks=$(yq eval '.SLURM.DEFAULT.NTASKS' $CONFIG_FILE)
+#SBATCH --cpus-per-task=$(yq eval '.SLURM.DEFAULT.CPUS_PER_TASK' $CONFIG_FILE)
+#SBATCH --time=$(yq eval '.SLURM.DEFAULT.RUN_TIME' $CONFIG_FILE)
+#SBATCH --mem-per-cpu=$(yq eval '.SLURM.DEFAULT.MEM_PER_CPU' $CONFIG_FILE)
 
 # Paths and parameters
-WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/combine-test copy"
-PYTHON_ENV="/home/wbs/csuqqj/myenv/bin/activate"
-LOG_FILE="logs/sample.log"
-INPUT_FILES=("Data/Dynamic/y/2015/cut.tif" "Data/Dynamic/y/2016/cut.tif" "Data/Dynamic/y/2017/cut.tif")
-OUTPUT_MASK="mask.npy"
-WINDOW_SIZE=256
+WORK_DIR=$(yq eval ".SLURM.WORK_DIR" $CONFIG_FILE)
+PYTHON_ENV=$(yq eval ".SLURM.PYTHON_ENV" $CONFIG_FILE)
+LOG_FILE=$(yq eval ".jobs.$JOB_NAME.LOG_FILE" $CONFIG_FILE)
+INPUT_FILES=($(yq eval ".jobs.$JOB_NAME.INPUT_FILES[]" $CONFIG_FILE)
+OUTPUT_MASK=$(yq eval ".jobs.$JOB_NAME.OUTPUT_MASK" $CONFIG_FILE)
+WINDOW_SIZE=$(yq eval ".GLOBAL.WINDOW_SIZE" $CONFIG_FILE)
 
 # Modules to load
-MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
-
-# Submit to SLURM
-#SBATCH --job-name=$JOB_NAME
-#SBATCH --nodes=$NODES
-#SBATCH --ntasks=$NTASKS
-#SBATCH --cpus-per-task=$CPUS_PER_TASK
-#SBATCH --time=$RUN_TIME
-#SBATCH --mem-per-cpu=$MEM_PER_CPU
+MODULES=($(yq eval '.SLURM.MODULES[]' $CONFIG_FILE)
 
 # Set the working directory 
 cd $WORK_DIR

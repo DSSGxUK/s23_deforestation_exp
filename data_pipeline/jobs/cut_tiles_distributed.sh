@@ -1,35 +1,35 @@
 #!/bin/bash
 
-# SLURM settings
-JOB_NAME="cut-tiles"
-NODES=32
-CPUS_PER_TASK=1
-RUN_TIME="48:00:00"
-MEM_PER_CPU=3700
-NTASKS_PER_NODE=48
+CONFIG_FILE="config.yml"
+JOB_NAME="$1" # The specific job name passed as an argument (e.g., cut_tiles_distributed)
 
-# Paths and arguments
-WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline"
-PYTHON_ENV="/home/wbs/csuqqj/myenv/bin/activate"
-LOG_FILE="logs/cut_tiles_32.log"
+if [ -z "$JOB_NAME" ]; then
+    echo "You must provide a job name as an argument."
+    exit 1
+fi
 
-INPUT_TIF="x_actual_datacube.tif"
-OUTPUT_DIR="x_actual_tiles"
-PICKLE_DIR="pickles_actual"
-WINDOW_SIZE=256
-MASK_FILE="None"  # Set to "None" if no mask file
-OVERWRITE=true  # Set to true or false
+# Extract SLURM settings from the config using the provided job name
+#SBATCH --job-name=$(yq eval ".jobs.$JOB_NAME.JOB_NAME" $CONFIG_FILE)
+#SBATCH --nodes=$(yq eval ".jobs.$JOB_NAME.NODES" $CONFIG_FILE)
+#SBATCH --cpus-per-task=$(yq eval ".jobs.$JOB_NAME.CPUS_PER_TASK" $CONFIG_FILE)
+#SBATCH --time=$(yq eval '.SLURM.DEFAULT.RUN_TIME' $CONFIG_FILE)
+#SBATCH --mem-per-cpu=$(yq eval '.SLURM.DEFAULT.MEM_PER_CPU' $CONFIG_FILE)
+#SBATCH --ntasks-per-node=$(yq eval ".jobs.$JOB_NAME.NTASKS_PER_NODE" $CONFIG_FILE)
+
+# Extract paths and arguments from the config
+WORK_DIR=$(yq eval '.SLURM.WORK_DIR' $CONFIG_FILE)
+PYTHON_ENV=$(yq eval '.SLURM.PYTHON_ENV' $CONFIG_FILE)
+LOG_FILE=$(yq eval ".jobs.$JOB_NAME.LOG_FILE" $CONFIG_FILE)
+
+INPUT_TIF=$(yq eval ".jobs.$JOB_NAME.INPUT_TIF" $CONFIG_FILE)
+OUTPUT_DIR=$(yq eval ".jobs.$JOB_NAME.OUTPUT_DIR" $CONFIG_FILE)
+PICKLE_DIR=$(yq eval ".jobs.$JOB_NAME.PICKLE_DIR" $CONFIG_FILE)
+WINDOW_SIZE=$(yq eval '.GLOBAL.WINDOW_SIZE' $CONFIG_FILE)
+MASK_FILE=$(yq eval ".jobs.$JOB_NAME.MASK_FILE" $CONFIG_FILE)
+OVERWRITE=$(yq eval ".jobs.$JOB_NAME.OVERWRITE" $CONFIG_FILE)
 
 # Modules to load
-MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
-
-# Submit to SLURM
-#SBATCH --job-name=$JOB_NAME
-#SBATCH --nodes=$NODES
-#SBATCH --cpus-per-task=$CPUS_PER_TASK
-#SBATCH --time=$RUN_TIME
-#SBATCH --mem-per-cpu=$MEM_PER_CPU
-#SBATCH --ntasks-per-node=$NTASKS_PER_NODE
+MODULES=($(yq eval '.SLURM.MODULES[]' $CONFIG_FILE))
 
 # Set the working directory 
 cd $WORK_DIR

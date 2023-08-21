@@ -1,39 +1,35 @@
 #!/bin/bash
+CONFIG_FILE="config.yml"
+JOB_NAME="$1" # The specific job name passed as an argument (e.g., stack_xtest)
 
-# SLURM settings
-JOB_NAME="standardize-maps"
-NODES=1
-NTASKS=1
-CPUS_PER_TASK=48
-RUN_TIME="48:00:00"
-MEM_PER_CPU=3700
+if [ -z "$JOB_NAME" ]; then
+    echo "You must provide a job name as an argument."
+    exit 1
+fi
+
+# SLURM directives
+#SBATCH --job-name=$(yq eval ".jobs.$JOB_NAME.JOB_NAME" $CONFIG_FILE)
+#SBATCH --nodes=$(yq eval '.SLURM.DEFAULT.NODES' $CONFIG_FILE)
+#SBATCH --ntasks=$(yq eval '.SLURM.DEFAULT.NTASKS' $CONFIG_FILE)
+#SBATCH --cpus-per-task=$(yq eval '.SLURM.DEFAULT.CPUS_PER_TASK' $CONFIG_FILE)
+#SBATCH --time=$(yq eval '.SLURM.DEFAULT.RUN_TIME' $CONFIG_FILE)
+#SBATCH --mem-per-cpu=$(yq eval '.SLURM.DEFAULT.MEM_PER_CPU' $CONFIG_FILE)
 
 # Paths and parameters
-WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline"
-PYTHON_ENV="/home/wbs/csuqqj/myenv/bin/activate"
-LOG_FILE="logs/script.log"
+WORK_DIR=$(yq eval '.SLURM.WORK_DIR' $CONFIG_FILE)
+DATA_DIR=$(yq eval '.SLURM.DATA_DIR' $CONFIG_FILE)
+PYTHON_ENV=$(yq eval '.SLURM.PYTHON_ENV' $CONFIG_FILE)
+YEARS=($(yq eval ".jobs.$JOB_NAME.YEARS[]" $CONFIG_FILE))
 
-ROOT_DIR="mining_data"
-SHAPEFILE="amazon_biome_border_epsg3854/amazon_biome_border_epsg3854.shp"
-PIXEL_SIZE=30
-TILE_SIZE=256
-TARGET_EXTENT=(-8235770.16520588 -1881517.21528837 -4831189.97240903   587435.80321739)
-OUTPUT_DIR="DataNewFeatures"
-MASK_PATH="mask.npy"
-PREPROCESS_STATIC="--preprocess_static"
+RESOLUTION=$(yq eval '.jobs.GLOBAL.YEARS' config.yml)
+#
+TARGET_EXTENT=($(yq eval ".jobs.GLOBAL.TARGET_EXTENT[]" $CONFIG_FILE))
+OUTPUT_DIR=$(yq eval '.parameters.output_dir' config.yml)
+MASK_PATH=$(yq eval '.parameters.mask_path' config.yml)
+PREPROCESS_STATIC=$(yq eval '.parameters.preprocess_static' config.yml)
 
 # Modules to load
-MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
-
-YEARS=$(seq 2012 2020)
-
-# Submit to SLURM
-#SBATCH --job-name=$JOB_NAME
-#SBATCH --nodes=$NODES
-#SBATCH --ntasks=$NTASKS
-#SBATCH --cpus-per-task=$CPUS_PER_TASK
-#SBATCH --time=$RUN_TIME
-#SBATCH --mem-per-cpu=$MEM_PER_CPU
+MODULES=($(yq eval '.SLURM.MODULES[]' $CONFIG_FILE))
 
 # Set the working directory 
 cd $WORK_DIR
@@ -49,18 +45,17 @@ for module in "${MODULES[@]}"; do
     module load $module
 done
 
-# Print start date and time
-echo "Job started on `hostname` at `date`" > $LOG_FILE
+# Log start date and time
+echo "Job started on `hostname` at `date`" >> $LOG_FILE
 
 run_script() {
     year=$1
     root_dir=$2
     shapefile=$3
     pixel_size=$4
-    tile_size=$5
-    target_extent=( $6 $7 $8 $9 )
-    output_dir=${10}
-    mask_path=${11}
+    target_extent=( $5 $6 $7 $8 )
+    output_dir=${9}
+    mask_path=${10}
     echo "Processing year: $year"
     python3 standardize_factor_maps.py --root_dir "$root_dir" --years "$year" --shapefile "$shapefile" --pixel_size "$pixel_size" --target_extent ${target_extent[@]} --output_dir "$output_dir" --mask "$mask_path"
 }
@@ -68,13 +63,13 @@ run_script() {
 export -f run_script
 
 # Create a new directory for logs
-mkdir -p "logs"
+mkdir -p $LOG_DIR
 
 # Use parallel to run the script for each year
-parallel run_script {} "$ROOT_DIR" "$SHAPEFILE" "$PIXEL_SIZE" "$TILE_SIZE" "${TARGET_EXTENT[@]}" "$OUTPUT_DIR" "$MASK_PATH" ::: "${YEARS[@]}"
+parallel run_script {} "$ROOT_DIR" "$SHAPEFILE" "$RESOLUTION" "${TARGET_EXTENT[@]}" "$OUTPUT_DIR" "$MASK_PATH" ::: "${YEARS[@]}"
 
 # echo "Processing static features"
-python3 standardize_factor_maps.py --root_dir "$ROOT_DIR" --shapefile "$SHAPEFILE" --pixel_size "$PIXEL_SIZE" --target_extent ${TARGET_EXTENT[@]} --output_dir "$OUTPUT_DIR" --mask "$MASK_PATH" $PREPROCESS_STATIC
+python3 standardize_factor_maps.py --root_dir "$ROOT_DIR" --shapefile "$SHAPEFILE" --pixel_size "$RESOLUTION" --target_extent ${TARGET_EXTENT[@]} --output_dir "$OUTPUT_DIR" --mask "$MASK_PATH" $PREPROCESS_STATIC
 
 # Print end date and time
 echo "Job ended on `hostname` at `date`" >> $LOG_FILE

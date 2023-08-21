@@ -1,33 +1,28 @@
 #!/bin/bash
 
-# SLURM settings
+CONFIG_FILE="config.yml"
 JOB_NAME="proximity"
-NODES=1
-NTASKS=1
-CPUS_PER_TASK=48
-RUN_TIME="48:00:00"
-MEM_PER_CPU=3700
+
+# SLURM settings
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --nodes=$(yq eval ".jobs.$JOB_NAME.NODES" $CONFIG_FILE)
+#SBATCH --ntasks=$(yq eval ".jobs.$JOB_NAME.NTASKS" $CONFIG_FILE)
+#SBATCH --cpus-per-task=$(yq eval ".jobs.$JOB_NAME.CPUS_PER_TASK" $CONFIG_FILE)
+#SBATCH --time=$(yq eval ".jobs.$JOB_NAME.RUN_TIME" $CONFIG_FILE)
+#SBATCH --mem-per-cpu=$(yq eval ".jobs.$JOB_NAME.MEM_PER_CPU" $CONFIG_FILE)
 
 # Paths
-WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline"
-ENV_PATH="/home/wbs/csuqqj/myenv/bin/activate"
-LOG_PATH="logs/proximity.log"
+WORK_DIR=$(yq eval ".SLURM.WORK_DIR" $CONFIG_FILE)
+ENV_PATH=$(yq eval ".SLURM.ENV_PATH" $CONFIG_FILE)
+LOG_PATH=$(yq eval ".jobs.$JOB_NAME.LOG_PATH" $CONFIG_FILE)
 
 # Modules
-MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
+MODULES=($(yq eval '.SLURM.MODULES[]' $CONFIG_FILE))
 
 # Directories
-SRC_DIR="Data/Dynamic"
-DST_DIR="Temp/Dynamic"
-FEATURE="y" # example: "y" here represents a placeholder for any feature.
-
-# Submit to SLURM
-#SBATCH --job-name=$JOB_NAME
-#SBATCH --nodes=$NODES
-#SBATCH --ntasks=$NTASKS
-#SBATCH --cpus-per-task=$CPUS_PER_TASK
-#SBATCH --time=$RUN_TIME
-#SBATCH --mem-per-cpu=$MEM_PER_CPU
+SRC_DIR=$(yq eval ".jobs.$JOB_NAME.SRC_DIR" $CONFIG_FILE)
+DST_DIR=$(yq eval ".jobs.$JOB_NAME.DST_DIR" $CONFIG_FILE)
+FEATURE=$(yq eval ".jobs.$JOB_NAME.FEATURE" $CONFIG_FILE)
 
 # Set the working directory 
 cd $WORK_DIR
