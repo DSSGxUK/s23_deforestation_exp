@@ -57,7 +57,7 @@ source dl_env/bin/activate
 
 # Install PyTorch
 pip3 install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip3 install wandb==0.13.1 rasterio tqdm scikit-learn pandas
+pip3 install wandb==0.13.1 rasterio==1.3.8 tqdm==4.66.0 scikit-learn==1.3.0 pandas==1.1.4
 ```
 
 This version is not currently on Avon and hence you will need to install it manually, and additionally load some modules.
@@ -72,7 +72,7 @@ source dl_env/bin/activate
 
 # Install PyTorch
 pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip3 install wandb==0.13.1 rasterio tqdm scikit-learn pandas
+pip3 install wandb==0.13.1 rasterio==1.3.8 tqdm==4.66.0 scikit-learn==1.3.0 pandas==1.1.4
 ```
 
 ### Data setup
@@ -203,7 +203,7 @@ This will save the predictions in the folder `pred_dir`. The predictions are sav
 
 ### Evaluation 
 
-**Note:** This section is only applicable for predicting one year into the future, i.e., single band data.
+#### Single year prediction
 
 In order to evalaute, we need to process the predictions to get the final deforestation map. This is done by running the following command. Here, `model_name` is the name of the model, `pred_dir` is the path to the folder containing the predictions, `prev_year_gt` is the path to the ground truth of the previous year, `output_dir` is the path to the folder where the final deforestation map will be saved and `shape_file` is the path to the shape file of the region. This will save the final deforestation map in the folder `output_dir`, at different threshold and resolutions.
 
@@ -221,6 +221,28 @@ Once we have the predictions and ground truth at the same resolution, we can cal
 
 ```bash
 python3 ./postprocess/evaluate.py --gt-path <gt_path> --pred-path <pred_path>
+```
+
+This will calculate our continuous versions of precision, recall and F1 score, alongside RMSE and the ratio of sum of prediction over sum of ground truth.
+
+#### Multi year prediction
+
+In order to evalaute, we need to process the predictions to get the final deforestation map. This is done by running the following command. Here, `model_name` is the name of the model, `pred_dir` is the path to the folder containing the predictions, `prev_year_gt` is the path to the ground truth of the previous year, `output_dir` is the path to the folder where the final deforestation map will be saved and `shape_file` is the path to the shape file of the region. This will save the final deforestation map in the folder `output_dir`, at different threshold and resolutions.
+
+```bash
+./postprocess/generate_model_output_multi.sh <model_name> <pred_dir> <prev_year_gt> <output_dir> <shape_file>
+```
+
+In order to evaluate, we must have the ground truth at the same resolutions as well. This is achieved by the following script.
+
+```bash
+./postprocess/generate_gt_single.sh <prev_year_gt> <output_dir> <shape_file>
+```
+
+Once we have the predictions and ground truth at the same resolution, we can calculate the metrics by running the following script.
+
+```bash
+python3 ./postprocess/evaluate.py --gt-path <gt_path> --pred-path <pred_path> --year <how many years into the future>
 ```
 
 This will calculate our continuous versions of precision, recall and F1 score, alongside RMSE and the ratio of sum of prediction over sum of ground truth.

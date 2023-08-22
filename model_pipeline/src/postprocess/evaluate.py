@@ -9,17 +9,18 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--gt-path", type=str, help="Path to ground truth image")
     parser.add_argument("--pred-path", type=str, help="Path to predicted image")
+    parser.add_argument("--year", type=int, default=1, help="How many years into the future to predict")
     args = parser.parse_args()
     # Call model_eval function
-    model_eval(gt_path = args.gt_path, pred_path = args.pred_path)
+    model_eval(gt_path = args.gt_path, pred_path = args.pred_path, year = args.year)
 
 
-def model_eval(gt_path, pred_path):
+def model_eval(gt_path, pred_path, year):
     # Open the average image file
     dataset = rasterio.open(pred_path)
 
     # Read the average image data into a NumPy array
-    pred_array = dataset.read()
+    pred_array = dataset.read([year])
     pred = pred_array
     pred[pred == -1] = np.nan
 
