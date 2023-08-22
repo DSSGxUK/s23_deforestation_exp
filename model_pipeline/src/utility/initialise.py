@@ -1,7 +1,9 @@
 import os
+import json
 import random
-import numpy as np
 import torch
+import numpy as np
+from argparse import ArgumentParser
 
 
 def set_seed(seed):
@@ -17,8 +19,10 @@ def set_seed(seed):
 
 
 def get_args():
+    """Get arguments from command line."""
     parser = ArgumentParser()
-    parser.add_argument("--config-file", required=True)
-    pass
-    # Parse arguments
+    parser.add_argument("--config-file", required=False, default="./conf/default.json")
+    args = parser.parse_args()
+    with open(args.config_file) as f:
+        args = json.load(f)
     return args
