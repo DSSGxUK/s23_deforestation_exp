@@ -1,7 +1,13 @@
 #!/bin/bash
 
+#!/bin/bash
 CONFIG_FILE="config.yml"
-JOB_NAME="calculate_global_stats"
+JOB_NAME="$1" # The specific job name passed as an argument (e.g., stack_xtest)
+
+if [ -z "$JOB_NAME" ]; then
+    echo "You must provide a job name as an argument."
+    exit 1
+fi
 
 # Extract SLURM and other settings from the config
 #SBATCH --job-name=$(yq eval ".jobs.$JOB_NAME.JOB_NAME" $CONFIG_FILE)

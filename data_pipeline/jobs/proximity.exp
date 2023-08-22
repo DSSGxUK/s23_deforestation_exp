@@ -1,7 +1,13 @@
 #!/bin/bash
 
+#!/bin/bash
 CONFIG_FILE="config.yml"
-JOB_NAME="proximity"
+JOB_NAME="$1" # The specific job name passed as an argument (e.g., stack_xtest)
+
+if [ -z "$JOB_NAME" ]; then
+    echo "You must provide a job name as an argument."
+    exit 1
+fi
 
 # SLURM settings
 #SBATCH --job-name=$JOB_NAME
