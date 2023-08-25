@@ -17,16 +17,17 @@ fi
 
 # Paths and parameters
 WORK_DIR=$(yq eval '.SLURM.WORK_DIR' $CONFIG_FILE)
-DATA_DIR=$(yq eval '.SLURM.DATA_DIR' $CONFIG_FILE)
 PYTHON_ENV=$(yq eval '.SLURM.PYTHON_ENV' $CONFIG_FILE)
 YEARS=($(yq eval ".jobs.$JOB_NAME.YEARS[]" $CONFIG_FILE))
-
-RESOLUTION=$(yq eval '.jobs.GLOBAL.YEARS' config.yml)
+ROOT_DIR=$(yq eval ".jobs.$JOB_NAME.RAW_DATA" $CONFIG_FILE)
+RESOLUTION=$(yq eval '.GLOBAL.RESOLUTION' $CONFIG_FILE)
 #
-TARGET_EXTENT=($(yq eval ".jobs.GLOBAL.TARGET_EXTENT[]" $CONFIG_FILE))
-OUTPUT_DIR=$(yq eval '.parameters.output_dir' config.yml)
-MASK_PATH=$(yq eval '.parameters.mask_path' config.yml)
-PREPROCESS_STATIC=$(yq eval '.parameters.preprocess_static' config.yml)
+TARGET_EXTENT=($(yq eval ".GLOBAL.TARGET_EXTENT[]" $CONFIG_FILE))
+OUTPUT_DIR=$(yq eval '.GLOBAL.DATA_DIR' $CONFIG_FILE)
+LOG_FILE=$(yq eval ".jobs.$JOB_NAME.LOG_FILE" $CONFIG_FILE)
+SHAPEFILE=$(yq eval '.GLOBAL.SHAPEFILE' $CONFIG_FILE)
+PREPROCESS_STATIC=$(yq eval '.parameters.preprocess_static' $CONFIG_FILE)
+DST_CRS=$(yq eval '.GLOBAL.DST_CRS' $CONFIG_FILE)
 
 # Modules to load
 MODULES=($(yq eval '.SLURM.MODULES[]' $CONFIG_FILE))
@@ -55,9 +56,8 @@ run_script() {
     pixel_size=$4
     target_extent=( $5 $6 $7 $8 )
     output_dir=${9}
-    mask_path=${10}
     echo "Processing year: $year"
-    python3 standardize_factor_maps.py --root_dir "$root_dir" --years "$year" --shapefile "$shapefile" --pixel_size "$pixel_size" --target_extent ${target_extent[@]} --output_dir "$output_dir" --mask "$mask_path"
+    python3 standardize_factor_maps.py --root_dir "$root_dir" --years "$year" --shapefile "$shapefile" --pixel_size "$pixel_size" --target_extent ${target_extent[@]} --output_dir "$output_dir" --dst_crs "$DST_CRS"
 }
 
 export -f run_script
@@ -66,10 +66,10 @@ export -f run_script
 mkdir -p $LOG_DIR
 
 # Use parallel to run the script for each year
-parallel run_script {} "$ROOT_DIR" "$SHAPEFILE" "$RESOLUTION" "${TARGET_EXTENT[@]}" "$OUTPUT_DIR" "$MASK_PATH" ::: "${YEARS[@]}"
+parallel run_script {} "$ROOT_DIR" "$SHAPEFILE" "$RESOLUTION" "${TARGET_EXTENT[@]}" "$OUTPUT_DIR" ::: "${YEARS[@]}"
 
 # echo "Processing static features"
-python3 standardize_factor_maps.py --root_dir "$ROOT_DIR" --shapefile "$SHAPEFILE" --pixel_size "$RESOLUTION" --target_extent ${TARGET_EXTENT[@]} --output_dir "$OUTPUT_DIR" --mask "$MASK_PATH" $PREPROCESS_STATIC
+python3 standardize_factor_maps.py --root_dir "$ROOT_DIR" --shapefile "$SHAPEFILE" --pixel_size "$RESOLUTION" --target_extent ${TARGET_EXTENT[@]} --output_dir "$OUTPUT_DIR" $PREPROCESS_STATIC --dst_crs "$DST_CRS"
 
 # Print end date and time
 echo "Job ended on `hostname` at `date`" >> $LOG_FILE
