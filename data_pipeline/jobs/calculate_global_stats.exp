@@ -1,0 +1,65 @@
+#!/bin/bash
+
+#!/bin/bash
+CONFIG_FILE="config.yml"
+JOB_NAME="$1" # The specific job name passed as an argument (e.g., stack_xtest)
+
+if [ -z "$JOB_NAME" ]; then
+    echo "You must provide a job name as an argument."
+    exit 1
+fi
+
+# Extract SLURM and other settings from the config
+#SBATCH --job-name=$(yq eval ".jobs.$JOB_NAME.JOB_NAME" $CONFIG_FILE)
+#SBATCH --nodes=$(yq eval '.SLURM.DEFAULT.NODES' $CONFIG_FILE)
+#SBATCH --ntasks=$(yq eval '.SLURM.DEFAULT.NTASKS' $CONFIG_FILE)
+#SBATCH --cpus-per-task=$(yq eval '.SLURM.DEFAULT.CPUS_PER_TASK' $CONFIG_FILE)
+#SBATCH --time=$(yq eval '.SLURM.DEFAULT.RUN_TIME' $CONFIG_FILE)
+#SBATCH --mem-per-cpu=$(yq eval '.SLURM.DEFAULT.MEM_PER_CPU' $CONFIG_FILE)
+
+# Extract paths and arguments from the config
+WORK_DIR=$(yq eval '.GLOBAL.WORK_DIR' $CONFIG_FILE)
+PYTHON_ENV=$(yq eval '.GLOBAL.PYTHON_ENV' $CONFIG_FILE)
+SHAPEFILE=$(yq eval '.GLOBAL.SHAPEFILE' $CONFIG_FILE)
+OVERWRITE=$(yq eval ".jobs.$JOB_NAME.OVERWRITE" $CONFIG_FILE)
+OUTPUT_DIR=$(yq eval ".jobs.$JOB_NAME.OUTPUT_DIR" $CONFIG_FILE)
+DATA_DIR=$(yq eval ".jobs.$JOB_NAME.DATA_DIR" $CONFIG_FILE)
+YEARS=($(yq eval '.jobs.$JOB_NAME.YEARS[]' $CONFIG_FILE))
+
+# Modules to load
+MODULES=($(yq eval '.GLOBAL.MODULES[]' $CONFIG_FILE))
+
+DYNAMIC_CATEGORIES=($(find $WORK_DIR/$DATA_DIR/Dynamic -maxdepth 1 -mindepth 1 -type d | xargs -n 1 basename | grep -v "$TARGET_VARIABLE"))
+STATIC_CATEGORIES=($(find $WORK_DIR/$DATA_DIR/Static -maxdepth 1 -mindepth 1 -type d | xargs -n 1 basename | grep -v "$TARGET_VARIABLE"))
+
+FILES=()
+for category in "${DYNAMIC_CATEGORIES[@]}"; do
+    for year in "${YEARS[@]}"; do
+        FILES+=("Dynamic/$category/$year/cut.tif")
+    done
+done
+
+for category in "${STATIC_CATEGORIES[@]}"; do
+    FILES+=("Static/$category/cut.tif")
+done
+
+# Set the working directory 
+cd $WORK_DIR
+
+# Activate Python Environment
+source $PYTHON_ENV
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+# Print start date and time
+echo "Job started on `hostname` at `date`"
+
+# Run the Python script
+python calculate_global_stats.py --input_files "${FILES[@]}" --output_dir $OUTPUT_DIR --shapefile_path $SHAPEFILE --overwrite
+

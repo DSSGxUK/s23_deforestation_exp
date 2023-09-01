@@ -1,0 +1,96 @@
+GLOBAL:
+  RESOLUTION: 30
+  WINDOW_SIZE: 256
+  DST_CRS: "EPSG:3857"
+  TARGET_EXTENT: 
+    - -8235770.16520588
+    - -1881517.21528837
+    - -4831189.97240903
+    - 587435.80321739
+  TARGET_VARIABLE: "y"
+  MODULES:
+    - GCCcore/11.3.0
+    - Python/3.10.4
+    - GCC/11.3.0 OpenMPI/4.1.4
+    - GDAL/3.5.0
+    - parallel/20220722
+  WORK_DIR: "."
+  PYTHON_ENV: "./venv/bin/activate"
+  RAW_DATA: "./Raw"
+  DATA_DIR: "./Data"
+  SHAPEFILE: "./amazon_biome_border_epsg3854/amazon_biome_border_epsg3854.shp"
+  LOG_DIR: "./logs"
+
+SLURM:
+  DEFAULT:
+    NODES: 1
+    NTASKS: 1
+    CPUS_PER_TASK: 48
+    RUN_TIME: "48:00:00"
+    MEM_PER_CPU: 3700
+
+jobs:
+ standardize_tifs:
+    JOB_NAME: "standardize-factor-maps"
+    LOG_FILE: "${GLOBAL.LOG_DIR}/standardize.log"
+    RAW_DATA: "${GLOBAL.RAW_DATA}"
+    YEARS:
+      - 2015
+      - 2016
+      - 2017
+    OUTPUT_DIR: "${GLOBAL.DATA_DIR}"
+
+  stack_xtest:
+    JOB_NAME: "stack-layers"
+    MODE: "ALL"
+    LOG_FILE: "${LOG_DIR}/stack.log"
+    YEARS:
+      - 2015
+      - 2016
+      - 2017
+    OUTPUT_VRT: "./merge_vrt_test/output.vrt"
+    OUTPUT_GEOTIFF: "./x_test_datacube.tif"
+
+  sample_deforestation:
+    JOB_NAME: "sample-deforestation"
+    LOG_FILE: "${LOG_DIR}/sample.log"
+    INPUT_FILES:
+      - ${SLURM.DATA_DIR}/Dynamic/y/2015/cut.tif
+      - ${SLURM.DATA_DIR}/Dynamic/y/2016/cut.tif
+      - ${SLURM.DATA_DIR}/Dynamic/y/2017/cut.tif
+    OUTPUT_MASK: "./mask.npy"
+
+  proximity:
+    JOB_NAME: "proximity"
+    LOG_PATH: "${LOG_DIR}/proximity.log"
+    SRC_DIR: "${SLURM.DATA_DIR}/Dynamic"
+    DST_DIR: "./Temp/Dynamic"
+    FEATURE: "y"
+
+  cut_tiles_distributed:
+    JOB_NAME: "cut-tiles"
+    NODES: 32
+    CPUS_PER_TASK: 1
+    NTASKS_PER_NODE: 48
+    LOG_FILE: "${LOG_DIR}/cut_tiles_distributed.log"
+    INPUT_TIF: "./x_actual_datacube.tif"
+    OUTPUT_DIR: "./x_actual_tiles"
+    PICKLE_DIR: "./pickles_actual"
+    MASK_FILE: "None"
+    OVERWRITE: true
+
+  clip_tifs:
+    JOB_NAME: "clip-tifs"
+    LOG_FILE: "${LOG_DIR}/cut_tiles.log"
+    FILES:
+      - ${SLURM.DATA_DIR}/Dynamic/y/2020/cut.tif
+    OVERWRITE: true
+
+  calculate_global_stats:
+    JOB_NAME: "calc"
+    OVERWRITE: true
+    OUTPUT_DIR: "./pickles_actual"
+    YEARS:
+      - 2015
+      - 2016
+      - 2017

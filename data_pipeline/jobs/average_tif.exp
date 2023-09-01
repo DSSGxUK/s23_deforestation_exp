@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# SLURM settings
+JOB_NAME="average-tifs"
+NODES=1
+NTASKS=1
+CPUS_PER_TASK=48
+RUN_TIME="48:00:00"
+MEM_PER_CPU=3700
+
+# Paths and Arguments
+WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline"
+BASE_TIF_DIR="Data/Dynamic/y"
+START_YEAR=2013
+END_YEAR=2017
+OUTPUT_TIF="5_year_average.tif"
+LOG_FILE="logs/gdal_calc.log"
+
+# Modules
+MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0")
+
+# SLURM submission
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --nodes=$NODES
+#SBATCH --ntasks=$NTASKS
+#SBATCH --cpus-per-task=$CPUS_PER_TASK
+#SBATCH --time=$RUN_TIME
+#SBATCH --mem-per-cpu=$MEM_PER_CPU
+
+# Change to the working directory
+cd $WORK_DIR
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+# Print start date and time
+echo "Job started on `hostname` at `date`" > $LOG_FILE
+
+# Generate list of input TIFs based on start and end years
+INPUT_TIFS=()
+for year in $(seq $START_YEAR $END_YEAR); do
+    INPUT_TIFS+=("$BASE_TIF_DIR/$year/cut.tif")
+done
+
+# Create a string to hold the arguments for gdal_calc.py
+args="-A "
+calc="numpy.average(numpy.where(A==-1, 0, A),axis=0)"
+
+for TIFF in "${INPUT_TIFS[@]}"; do
+    args+="$TIFF "
+done
+
+args+="--outfile=$OUTPUT_TIF --calc=\"$calc\" --type=Float32 --overwrite"
+
+# Run the GDAL calculation
+echo $args
+eval "gdal_calc.py $args" >> $LOG_FILE
+
+# Print end date and time
+echo "Average TIFF saved as $OUTPUT_TIF" >> $LOG_FILE
+echo "Job ended on `hostname` at `date`" >> $LOG_FILE

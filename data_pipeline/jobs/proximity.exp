@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#!/bin/bash
+CONFIG_FILE="config.yml"
+JOB_NAME="$1" # The specific job name passed as an argument (e.g., stack_xtest)
+
+if [ -z "$JOB_NAME" ]; then
+    echo "You must provide a job name as an argument."
+    exit 1
+fi
+
+# SLURM settings
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --nodes=$(yq eval ".jobs.$JOB_NAME.NODES" $CONFIG_FILE)
+#SBATCH --ntasks=$(yq eval ".jobs.$JOB_NAME.NTASKS" $CONFIG_FILE)
+#SBATCH --cpus-per-task=$(yq eval ".jobs.$JOB_NAME.CPUS_PER_TASK" $CONFIG_FILE)
+#SBATCH --time=$(yq eval ".jobs.$JOB_NAME.RUN_TIME" $CONFIG_FILE)
+#SBATCH --mem-per-cpu=$(yq eval ".jobs.$JOB_NAME.MEM_PER_CPU" $CONFIG_FILE)
+
+# Paths
+WORK_DIR=$(yq eval ".SLURM.WORK_DIR" $CONFIG_FILE)
+ENV_PATH=$(yq eval ".SLURM.ENV_PATH" $CONFIG_FILE)
+LOG_PATH=$(yq eval ".jobs.$JOB_NAME.LOG_PATH" $CONFIG_FILE)
+
+# Modules
+MODULES=($(yq eval '.SLURM.MODULES[]' $CONFIG_FILE))
+
+# Directories
+SRC_DIR=$(yq eval ".jobs.$JOB_NAME.SRC_DIR" $CONFIG_FILE)
+DST_DIR=$(yq eval ".jobs.$JOB_NAME.DST_DIR" $CONFIG_FILE)
+FEATURE=$(yq eval ".jobs.$JOB_NAME.FEATURE" $CONFIG_FILE)
+
+# Set the working directory 
+cd $WORK_DIR
+
+source $ENV_PATH
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+# Print start date and time
+echo "Job started on `hostname` at `date`" > $LOG_PATH
+
+# For each feature, get all unique years, and copy the cut.tif file
+years=$(find "$SRC_DIR/$FEATURE" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
+for year in $years
+do
+    # Check if file exists
+    if [ -f "$SRC_DIR/$FEATURE/$year/cut.tif" ]
+    then
+        # Make sure the destination directory exists
+        mkdir -p "$DST_DIR/proximity/$year"
+        gdal_proximity.py "$SRC_DIR/$FEATURE/$year/cut.tif" "$DST_DIR/proximity/$year/cut.tif" -values 1
+    fi
+done
+
+# Print end date and time
+echo "Job ended on `hostname` at `date`" >> $LOG_PATH

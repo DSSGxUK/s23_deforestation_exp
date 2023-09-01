@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# SLURM settings
+JOB_NAME="cut-tiles"
+NODES=1
+NTASKS=1
+CPUS_PER_TASK=48
+RUN_TIME="48:00:00"
+MEM_PER_CPU=3700
+
+# Paths and arguments
+WORK_DIR="/home/shared/dssg23-deforestation/mapbiomas-deforest/standartization_pipeline"
+PYTHON_ENV="/home/wbs/csuqqj/myenv/bin/activate"
+LOG_FILE="logs/cut_tiles.log"
+
+INPUT_TIF="x_train_datacube_latest_vrt.tif"
+OUTPUT_DIR="x_train_datacube_sampled_latest_latest"
+PICKLE_DIR="pickles_latest"
+WINDOW_SIZE=256
+MASK_FILE="mask.npy"  # Set to "None" if no mask file
+OVERWRITE=true  # Set to true or false
+
+# Modules to load
+MODULES=("GCCcore/11.3.0" "Python/3.10.4" "GCC/11.3.0 OpenMPI/4.1.4" "GDAL/3.5.0" "parallel/20220722")
+
+# Submit to SLURM
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --nodes=$NODES
+#SBATCH --ntasks=$NTASKS
+#SBATCH --cpus-per-task=$CPUS_PER_TASK
+#SBATCH --time=$RUN_TIME
+#SBATCH --mem-per-cpu=$MEM_PER_CPU
+
+# Set the working directory 
+cd $WORK_DIR
+
+# Activate Python Environment
+source $PYTHON_ENV
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+# Print start date and time
+echo "Job started on \`hostname\` at \`date\`" > $LOG_FILE
+
+# Construct the Python script command
+CMD="python cut_tiles.py --input_tif $INPUT_TIF --output_dir $OUTPUT_DIR --pickle_dir $PICKLE_DIR --window_size $WINDOW_SIZE"
+if [ "$MASK_FILE" != "None" ] ; then
+    CMD+=" --mask_file $MASK_FILE"
+fi
+if [ "$OVERWRITE" = true ] ; then
+    CMD+=" --overwrite"
+fi
+
+# Execute the command
+echo $CMD
+eval $CMD >> $LOG_FILE
+
+# Print end date and time
+echo "Job ended on \`hostname\` at \`date\`" >> $LOG_FILE

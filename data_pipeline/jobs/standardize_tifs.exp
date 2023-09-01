@@ -1,0 +1,75 @@
+#!/bin/bash
+CONFIG_FILE="config.yml"
+JOB_NAME="$1" # The specific job name passed as an argument (e.g., stack_xtest)
+
+if [ -z "$JOB_NAME" ]; then
+    echo "You must provide a job name as an argument."
+    exit 1
+fi
+
+# SLURM directives
+#SBATCH --job-name=$(yq eval ".jobs.$JOB_NAME.JOB_NAME" $CONFIG_FILE)
+#SBATCH --nodes=$(yq eval '.SLURM.DEFAULT.NODES' $CONFIG_FILE)
+#SBATCH --ntasks=$(yq eval '.SLURM.DEFAULT.NTASKS' $CONFIG_FILE)
+#SBATCH --cpus-per-task=$(yq eval '.SLURM.DEFAULT.CPUS_PER_TASK' $CONFIG_FILE)
+#SBATCH --time=$(yq eval '.SLURM.DEFAULT.RUN_TIME' $CONFIG_FILE)
+#SBATCH --mem-per-cpu=$(yq eval '.SLURM.DEFAULT.MEM_PER_CPU' $CONFIG_FILE)
+
+# Paths and parameters
+WORK_DIR=$(yq eval '.SLURM.WORK_DIR' $CONFIG_FILE)
+PYTHON_ENV=$(yq eval '.SLURM.PYTHON_ENV' $CONFIG_FILE)
+YEARS=($(yq eval ".jobs.$JOB_NAME.YEARS[]" $CONFIG_FILE))
+ROOT_DIR=$(yq eval ".jobs.$JOB_NAME.RAW_DATA" $CONFIG_FILE)
+RESOLUTION=$(yq eval '.GLOBAL.RESOLUTION' $CONFIG_FILE)
+#
+TARGET_EXTENT=($(yq eval ".GLOBAL.TARGET_EXTENT[]" $CONFIG_FILE))
+OUTPUT_DIR=$(yq eval '.GLOBAL.DATA_DIR' $CONFIG_FILE)
+LOG_FILE=$(yq eval ".jobs.$JOB_NAME.LOG_FILE" $CONFIG_FILE)
+SHAPEFILE=$(yq eval '.GLOBAL.SHAPEFILE' $CONFIG_FILE)
+PREPROCESS_STATIC=$(yq eval '.parameters.preprocess_static' $CONFIG_FILE)
+DST_CRS=$(yq eval '.GLOBAL.DST_CRS' $CONFIG_FILE)
+
+# Modules to load
+MODULES=($(yq eval '.SLURM.MODULES[]' $CONFIG_FILE))
+
+# Set the working directory 
+cd $WORK_DIR
+
+# Activate Python Environment
+source $PYTHON_ENV
+
+# Purge all loaded modules
+module purge
+
+# Load necessary modules
+for module in "${MODULES[@]}"; do
+    module load $module
+done
+
+# Log start date and time
+echo "Job started on `hostname` at `date`" >> $LOG_FILE
+
+run_script() {
+    year=$1
+    root_dir=$2
+    shapefile=$3
+    pixel_size=$4
+    target_extent=( $5 $6 $7 $8 )
+    output_dir=${9}
+    echo "Processing year: $year"
+    python3 standardize_factor_maps.py --root_dir "$root_dir" --years "$year" --shapefile "$shapefile" --pixel_size "$pixel_size" --target_extent ${target_extent[@]} --output_dir "$output_dir" --dst_crs "$DST_CRS"
+}
+
+export -f run_script
+
+# Create a new directory for logs
+mkdir -p $LOG_DIR
+
+# Use parallel to run the script for each year
+parallel run_script {} "$ROOT_DIR" "$SHAPEFILE" "$RESOLUTION" "${TARGET_EXTENT[@]}" "$OUTPUT_DIR" ::: "${YEARS[@]}"
+
+# echo "Processing static features"
+python3 standardize_factor_maps.py --root_dir "$ROOT_DIR" --shapefile "$SHAPEFILE" --pixel_size "$RESOLUTION" --target_extent ${TARGET_EXTENT[@]} --output_dir "$OUTPUT_DIR" $PREPROCESS_STATIC --dst_crs "$DST_CRS"
+
+# Print end date and time
+echo "Job ended on `hostname` at `date`" >> $LOG_FILE
