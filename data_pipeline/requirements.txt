@@ -1,0 +1,255 @@
+affine==2.4.0
+alabaster @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/alabaster/alabaster-0.7.12
+ansi2html==1.8.0
+appdirs @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/appdirs/appdirs-1.4.4
+asn1crypto @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/asn1crypto/asn1crypto-1.5.1
+asttokens==2.2.1
+atomicwrites @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/atomicwrites/atomicwrites-1.4.0
+attrs @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/attrs/attrs-21.4.0
+Babel @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/Babel/Babel-2.10.1
+backcall==0.2.0
+backports.entry-points-selectable @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/backportsentry_points_selectable/backports.entry_points_selectable-1.1.1
+backports.functools-lru-cache @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/backportsfunctools_lru_cache/backports.functools_lru_cache-1.6.4
+bcrypt @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/bcrypt/bcrypt-3.2.2
+beniget @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/beniget/beniget-0.4.1
+bitstring @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/bitstring/bitstring-3.1.9
+blist @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/blist/blist-1.3.6
+Bottleneck @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/Bottleneck/Bottleneck-1.3.4
+bqplot==0.12.39
+branca==0.6.0
+CacheControl @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/CacheControl/CacheControl-0.12.11
+cachetools==5.3.1
+cachy @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/cachy/cachy-0.3.0
+category-encoders==2.6.1
+certifi @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/certifi/certifi-2021.10.8
+cffi @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/cffi/cffi-1.15.0
+chardet @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/chardet/chardet-4.0.0
+charset-normalizer @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/charsetnormalizer/charset-normalizer-2.0.12
+cleo @ file:///home/csc/pfsrqd/ebsrcs/p/Python/extensions/cleo-0.8.1-py2.py3-none-any.whl
+click @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/click/click-8.1.3
+click-plugins==1.1.1
+cligj==0.7.2
+clikit @ file:///home/csc/pfsrqd/ebsrcs/p/Python/extensions/clikit-0.6.2-py2.py3-none-any.whl
+cloudpickle==2.2.1
+colorama @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/colorama/colorama-0.4.4
+colour==0.1.5
+comm==0.1.3
+contourpy==1.1.0
+crashtest @ file:///home/csc/pfsrqd/ebsrcs/p/Python/extensions/crashtest-0.3.1-py3-none-any.whl
+cryptography @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/cryptography/cryptography-37.0.1
+cycler==0.11.0
+Cython @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/Cython/Cython-0.29.28
+dash==2.11.1
+dash-core-components==2.0.0
+dash-html-components==2.0.0
+dash-table==5.0.0
+deap @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/deap/deap-1.3.1
+debugpy==1.6.7
+decorator @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/decorator/decorator-5.1.1
+Deprecated==1.2.14
+deprecation==2.1.0
+distlib @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/distlib/distlib-0.3.4
+docopt @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/docopt/docopt-0.6.2
+docutils @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/docutils/docutils-0.17.1
+earthengine-api==0.1.358
+ecdsa @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/ecdsa/ecdsa-0.17.0
+editables @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/editables/editables-0.3
+eerepr==0.0.4
+executing==1.2.0
+fastjsonschema==2.18.0
+filelock @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/filelock/filelock-3.6.0
+Fiona==1.9.4.post1
+Flask==2.2.5
+flit @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/flit/flit-3.7.1
+flit_core @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/flitcore/flit_core-3.7.1
+folium==0.14.0
+fonttools==4.40.0
+fsspec @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/fsspec/fsspec-2022.3.0
+future @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/future/future-0.18.2
+gast @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/gast/gast-0.5.3
+GDAL==3.5.0
+geedim==1.7.2
+geemap==0.23.2
+geocoder==1.38.1
+geopandas==0.13.2
+glob2 @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/glob2/glob2-0.7
+google-api-core==2.11.1
+google-api-python-client==2.92.0
+google-auth==2.21.0
+google-auth-httplib2==0.1.0
+google-cloud-core==2.3.3
+google-cloud-storage==2.10.0
+google-crc32c==1.5.0
+google-resumable-media==2.5.0
+googleapis-common-protos==1.59.1
+html5lib @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/html5lib/html5lib-1.1
+httplib2==0.22.0
+idna @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/idna/idna-3.3
+imagesize @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/imagesize/imagesize-1.3.0
+imbalanced-learn==0.11.0
+importlib-metadata==6.8.0
+importlib-resources @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/importlib_resources/importlib_resources-5.7.1
+iniconfig @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/iniconfig/iniconfig-1.1.1
+intervaltree @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/intervaltree/intervaltree-3.1.0
+intreehooks @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/intreehooks/intreehooks-1.0
+ipaddress @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/ipaddress/ipaddress-1.0.23
+ipyevents==2.0.1
+ipyfilechooser==0.6.0
+ipykernel==6.24.0
+ipyleaflet==0.17.3
+ipython==8.14.0
+ipytree==0.2.2
+ipywidgets==8.0.7
+itsdangerous==2.1.2
+jedi==0.18.2
+jeepney @ file:///home/csc/pfsrqd/ebsrcs/p/Python/extensions/jeepney-0.8.0-py3-none-any.whl
+Jinja2 @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/Jinja2/Jinja2-3.1.2
+joblib==1.3.1
+jsonschema @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/jsonschema/jsonschema-4.4.0
+jupyter_client==8.3.0
+jupyter_core==5.3.1
+jupyterlab-widgets==3.0.8
+kaleido==0.2.1
+keyring @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/keyring/keyring-23.5.0
+keyrings.alt @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/keyringsalt/keyrings.alt-4.1.0
+kiwisolver==1.4.4
+liac-arff @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/liacarff/liac-arff-2.5.0
+lightgbm==4.0.0
+llvmlite==0.40.1
+lockfile @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/lockfile/lockfile-0.12.2
+MarkupSafe @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/MarkupSafe/MarkupSafe-2.1.1
+matplotlib==3.7.2
+matplotlib-inline==0.1.6
+mock @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/mock/mock-4.0.3
+more-itertools @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/moreitertools/more-itertools-8.12.0
+mpi4py @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/mpi4py/mpi4py-3.1.3
+mpmath @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/mpmath/mpmath-1.2.1
+msgpack @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/msgpack/msgpack-1.0.3
+nbformat==5.9.2
+nest-asyncio==1.5.6
+netaddr @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/netaddr/netaddr-0.8.0
+netifaces @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/netifaces/netifaces-0.11.0
+numba==0.57.1
+numexpr @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/numexpr/numexpr-2.8.1
+numpy @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/numpy/numpy-1.22.3
+orjson==3.9.2
+packaging==23.1
+pandas @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/pandas/pandas-1.4.2
+paramiko @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/paramiko/paramiko-2.10.4
+parso==0.8.3
+pastel @ file:///home/csc/pfsrqd/ebsrcs/p/Python/extensions/pastel-0.2.1-py2.py3-none-any.whl
+pathlib2 @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pathlib2/pathlib2-2.3.7.post1
+pathspec @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pathspec/pathspec-0.9.0
+patsy==0.5.3
+pbr @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pbr/pbr-5.8.1
+pexpect @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pexpect/pexpect-4.8.0
+pickleshare==0.7.5
+Pillow==10.0.0
+pkginfo @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pkginfo/pkginfo-1.8.2
+platformdirs==3.8.0
+plotly==5.15.0
+plotly-resampler==0.9.1
+pluggy @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pluggy/pluggy-1.0.0
+ply @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/ply/ply-3.11
+pmdarima==2.0.3
+poetry @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/poetry/poetry-1.1.13
+poetry-core @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/poetrycore/poetry-core-1.0.8
+prompt-toolkit==3.0.39
+protobuf==4.23.3
+psutil @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/psutil/psutil-5.9.0
+ptyprocess @ file:///home/csc/pfsrqd/ebsrcs/p/Python/extensions/ptyprocess-0.7.0-py2.py3-none-any.whl
+pure-eval==0.2.2
+py @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/py/py-1.11.0
+py-expression-eval @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/py_expression_eval/py_expression_eval-0.3.14
+pyasn1 @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pyasn1/pyasn1-0.4.8
+pyasn1-modules==0.3.0
+pybind11 @ file:///gpfs/home/csc/pfsrqd/easybuild/build/pybind11/2.9.2/GCCcore-11.3.0/pybind11-2.9.2
+pycaret==3.0.4
+pycparser @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pycparser/pycparser-2.21
+pycrypto @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pycrypto/pycrypto-2.6.1
+Pygments @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/Pygments/Pygments-2.12.0
+pylev @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pylev/pylev-1.4.0
+PyNaCl @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/PyNaCl/PyNaCl-1.5.0
+pyod==1.1.0
+pyparsing @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pyparsing/pyparsing-3.0.8
+pyperclip==1.8.2
+pyproj==3.6.0
+pyrsistent @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pyrsistent/pyrsistent-0.18.1
+pyshp==2.3.1
+pytest @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pytest/pytest-7.1.2
+python-box==7.0.1
+python-dateutil @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pythondateutil/python-dateutil-2.8.2
+pythran @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/pythran/pythran-0.11.0
+pytoml @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pytoml/pytoml-0.1.21
+pytz @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/pytz/pytz-2022.1
+pyzmq==25.1.0
+rasterio==1.3.8
+ratelim==0.1.6
+regex @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/regex/regex-2022.4.24
+requests @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/requests/requests-2.27.1
+requests-toolbelt @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/requeststoolbelt/requests-toolbelt-0.9.1
+retrying==1.3.4
+rsa==4.9
+scandir @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/scandir/scandir-1.10.0
+schemdraw==0.15
+scikit-base==0.5.0
+scikit-learn==1.2.2
+scikit-plot==0.3.7
+SciPy @ file:///gpfs/home/csc/pfsrqd/easybuild/build/SciPybundle/2022.05/foss-2022a/scipy/scipy-1.8.1
+scooby==0.7.2
+SecretStorage @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/SecretStorage/SecretStorage-3.3.2
+semantic-version @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/semantic_version/semantic_version-2.9.0
+setuptools-rust @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/setuptoolsrust/setuptools-rust-1.3.0
+setuptools-scm @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/setuptools_scm/setuptools_scm-6.4.2
+shapely==2.0.1
+shellingham @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/shellingham/shellingham-1.4.0
+simplegeneric @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/simplegeneric/simplegeneric-0.8.1
+simplejson @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/simplejson/simplejson-3.17.6
+six @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/six/six-1.16.0
+sklearn==0.0.post7
+sktime==0.21.0
+snowballstemmer @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/snowballstemmer/snowballstemmer-2.2.0
+snuggs==1.4.7
+sortedcontainers @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sortedcontainers/sortedcontainers-2.4.0
+Sphinx @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/Sphinx/Sphinx-4.5.0
+sphinx-bootstrap-theme @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sphinxbootstraptheme/sphinx-bootstrap-theme-0.8.1
+sphinxcontrib-applehelp @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sphinxcontribapplehelp/sphinxcontrib-applehelp-1.0.2
+sphinxcontrib-devhelp @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sphinxcontribdevhelp/sphinxcontrib-devhelp-1.0.2
+sphinxcontrib-htmlhelp @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sphinxcontribhtmlhelp/sphinxcontrib-htmlhelp-2.0.0
+sphinxcontrib-jsmath @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sphinxcontribjsmath/sphinxcontrib-jsmath-1.0.1
+sphinxcontrib-qthelp @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sphinxcontribqthelp/sphinxcontrib-qthelp-1.0.3
+sphinxcontrib-serializinghtml @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sphinxcontribserializinghtml/sphinxcontrib-serializinghtml-1.1.5
+sphinxcontrib-websupport @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/sphinxcontribwebsupport/sphinxcontrib-websupport-1.2.4
+stack-data==0.6.2
+statsmodels==0.14.0
+tabulate @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/tabulate/tabulate-0.8.9
+tbats==1.1.3
+tenacity==8.2.2
+threadpoolctl @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/threadpoolctl/threadpoolctl-3.1.0
+toml @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/toml/toml-0.10.2
+tomli @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/tomli/tomli-2.0.1
+tomli_w @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/tomli_w/tomli_w-1.0.0
+tomlkit @ file:///home/csc/pfsrqd/ebsrcs/p/Python/extensions/tomlkit-0.10.2-py3-none-any.whl
+tornado==6.3.2
+tqdm==4.65.0
+trace-updater==0.0.9.1
+traitlets==5.9.0
+traittypes==0.2.1
+tsdownsample==0.1.2
+typing_extensions @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/typing_extensions/typing_extensions-4.2.0
+ujson @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/ujson/ujson-5.2.0
+uritemplate==4.1.1
+urllib3 @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/urllib3/urllib3-1.26.9
+virtualenv @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/virtualenv/virtualenv-20.14.1
+wcwidth @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/wcwidth/wcwidth-0.2.5
+webencodings @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/webencodings/webencodings-0.5.1
+Werkzeug==2.2.3
+widgetsnbextension==4.0.8
+wrapt==1.15.0
+wurlitzer==3.0.3
+xlrd @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/xlrd/xlrd-2.0.1
+xxhash==3.3.0
+xyzservices==2023.5.0
+yellowbrick==1.5
+zipfile36 @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/zipfile36/zipfile36-0.1.3
+zipp @ file:///gpfs/home/csc/pfsrqd/easybuild/build/Python/3.10.4/GCCcore-11.3.0/zipp/zipp-3.8.0
