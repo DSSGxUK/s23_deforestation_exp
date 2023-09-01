@@ -67,7 +67,7 @@ The script `generate_training_points.py` takes a raster dataset, randomly sample
 
 Usage:
 ```bash
-python generate_training_points.py --raster_path /path/to/raster/file.tif --num_samples 100 --target_classes 1 2 3 --export_path /path/to/export.geojson
+python generate_training_points.py --raster_path /path/to/raster/file.tif --num_samples 100 --target_classes 1 2 3 --export_path /path/to/export.shp
 ```
 
 ### 2. Preprocessing and Sampling Pixel Values
