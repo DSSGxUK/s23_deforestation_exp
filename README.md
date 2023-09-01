@@ -16,16 +16,17 @@ These models were benchmarked against the Jurisdictional and Nested REDD+ (JNR) 
 ## Features
 - Google Earth Engine App: A user-friendly application to visualize the deforestation risk across various regions. [App link](https://gee-tool.projects.earthengine.app/view/dssg23-deforestation)
 - Comprehensive Data Pipeline: Includes various jobs for data preparation, normalization, and feature engineering.
+- UNet Model Pipeline: A dedicated pipeline for the deep learning UNet model that includes training, evaluation logging and output generation.
 - Feature Ablation: Insights into the feature importances identified by the Deep Learning model.
 - Modular Code Base: Code for each part of the pipeline and models is separately maintained for better readability and usability.
   
 ## Performance Metrics
-For the deep learning model, a generalised F1 score of 0.4757 was achieved for three-year predictions, slightly underperforming the JNR benchmark of 0.5043. For one-year predictions, the F1 score stood at 0.3644 against the JNR score of 0.4372.
+For the deep learning model, a generalised (see below) F1 score of 0.4757 was achieved for three-year predictions, slightly underperforming the JNR benchmark of 0.5043. For one-year predictions, the F1 score stood at 0.3644 against the JNR score of 0.4372.
 
 Next Steps
 Future work could focus on increasing model capacity or sourcing more recent data to enhance performance. 
 
-# The Continuous Precision and Recall Metrics
+## The Continuous Precision and Recall Metrics
 The following code contains the function to return the normalized continuous precision and recall values to validate the 5-year average benchmark and JNR.
 
 ## Benchmarks
