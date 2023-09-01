@@ -1,0 +1,20 @@
+{
+    "Paths": {
+      "shapefile_path": "path/to/shapefile.shp",
+      "pickle_dir": "path/to/global_stats_cache",
+      "model_path": "path/to/pretrained/model.pkl",
+      "input_tiles_dir": "path/to/input/tiles",
+      "output_dir": "path/to/output/folder"
+    },
+    "ColumnsToDrop": ["column_to_drop1", "column_to_drop2"],
+    "ColumnsOfInterest": {
+      "columns": [0, 1, 2, 3]  
+    },
+    "TargetColumn": "target_column",
+    "OrdinalCategories": [],
+    "SessionID": 123,
+    "ModelType": "rf",
+    "ModelSavePath": "path/to/save/model.pkl",
+    "ClassIndex": 1  
+  }
+  

@@ -1,0 +1,7 @@
+python==3.10.0
+gdal
+numpy
+rasterio
+geopandas
+pycaret
+tqdm
