@@ -54,9 +54,6 @@ You can install the required packages using the following command:
 ```bash
 pip install numpy rasterio geopandas pycaret tqdm
 ```
-
-Sure, I can help you update your README file to reflect the folder structure and provide clear instructions for running your pipeline. Here's your updated README:
-
 ---
 
 ## Workflow Steps
@@ -85,7 +82,7 @@ The script `train_model.py` loads the GeoDataFrame generated in the first step, 
 
 Usage:
 ```bash
-python train_model.py --config_file /path/to/config.json
+python train_model.py  /path/to/config.json
 ```
 
 Create a `config.json` file specifying paths, settings, and parameters for model training.
@@ -96,7 +93,7 @@ The script `predict_with_model.py` uses a pretrained classification model to mak
 
 Usage:
 ```bash
-python predict_with_model.py --config_file /path/to/config.json
+python predict_with_model.py  /path/to/config.json
 ```
 
 Create a `config.json` file specifying paths to the pretrained model, input tiles, and output directory.

@@ -6,6 +6,7 @@ import numpy as np
 import rasterio as rio
 import geopandas as gpd
 from pycaret.classification import *
+import argparse
 
 def load_config(config_path):
     with open(config_path, 'r') as config_file:
@@ -58,6 +59,18 @@ def train_with_config(config):
     print("Code execution completed.")
 
 if __name__ == '__main__':
-    config_file_path = input("Enter the path to config.json: ")
+    # Create an ArgumentParser
+    parser = argparse.ArgumentParser(description="Train a model using a configuration file")
+    
+    # Add an argument for the configuration file path
+    parser.add_argument("config_file", type=str, help="Path to the configuration JSON file")
+    
+    # Parse the command-line arguments
+    args = parser.parse_args()
+    
+    # Load the configuration file based on the provided path
+    config_file_path = args.config_file
     config = load_config(config_file_path)
+    
+    # Call the training function with the loaded configuration
     train_with_config(config)
