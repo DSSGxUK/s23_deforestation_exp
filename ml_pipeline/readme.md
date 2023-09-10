@@ -41,10 +41,11 @@ ml_pipeline/
 ## Prerequisites
 
 1. Python 3.10.0
-2. Required Python packages:
-   pip install requirements.txt
-
-You can install the required packages using the following command:
+2. Required Python packages: 
+```bash
+pip install requirements.txt
+```
+You can also install the required packages using the following command:
 ```bash
 pip install numpy rasterio geopandas pycaret tqdm
 ```
