@@ -43,7 +43,7 @@ ml_pipeline/
 1. Python 3.10.0
 2. Required Python packages: 
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 You can also install the required packages using the following command:
 ```bash
