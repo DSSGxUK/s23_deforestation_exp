@@ -42,13 +42,7 @@ ml_pipeline/
 
 1. Python 3.10.0
 2. Required Python packages:
-   - GDAL=3.5.0
-   - json
-   - numpy
-   - rasterio
-   - geopandas
-   - pycaret
-   - tqdm
+   pip install requirements.txt
 
 You can install the required packages using the following command:
 ```bash
